@@ -41,7 +41,7 @@
 예시 >
 
 ```
-  FEATURE/#3-bookmark
+  [FEAT]/#3-bookmark
 
 ```
 
