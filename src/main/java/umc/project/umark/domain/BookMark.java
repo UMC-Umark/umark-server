@@ -4,6 +4,7 @@ package umc.project.umark.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
+import umc.project.umark.domain.report.Report;
 import umc.project.umark.global.common.BaseEntity;
 
 import java.util.List;
@@ -29,16 +30,16 @@ public class BookMark extends BaseEntity {
     private String content;
 
     @Column(nullable = false)
-    private String likeCount;
+    private Integer likeCount;
 
     @Column(nullable = false)
-    private String reportCount;
+    private Integer reportCount;
 
-    @OneToMany(mappedBy = "bookmark")
+    @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL)
     private List<HashTag> hashTags;
 
-    @OneToMany(mappedBy = "bookmark")
-    private List<HashTag> Report;
+    @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL)
+    private List<Report> reports;
 
     //@ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn

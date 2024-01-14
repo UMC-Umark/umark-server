@@ -15,7 +15,7 @@ import umc.project.umark.global.common.BaseEntity;
 public class HashTag extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long hashTagId;
+    private Long id;
 
     @Column(nullable = false)
     private String content;
