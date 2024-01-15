@@ -1,9 +1,10 @@
-package umc.project.umark.domain;
+package umc.project.umark.domain.HashTag;
 
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
+import umc.project.umark.domain.bookmark.BookMark;
 import umc.project.umark.global.common.BaseEntity;
 
 @Getter
