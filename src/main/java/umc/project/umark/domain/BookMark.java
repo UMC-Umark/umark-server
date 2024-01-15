@@ -30,12 +30,12 @@ public class BookMark extends BaseEntity {
     private String content;
 
     @Column(nullable = false)
-    private Integer likeCount;
+    private Integer likeCount=0;
 
     @Column(nullable = false)
-    private Integer reportCount;
+    private Integer reportCount=0;
 
-    @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bookmark")
     private List<HashTag> hashTags;
 
     @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL)
@@ -44,4 +44,27 @@ public class BookMark extends BaseEntity {
     //@ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn
     //private Member member;
+
+
+
+    public void increaseLikeCount() {
+        this.likeCount++;
+    }
+
+    public void increaseReportCount() {
+        this.reportCount++;
+    }
+
+    public void decreaseLikeCount() {
+        if (this.likeCount > 0) {
+            this.likeCount--;
+        }
+    }
+
+    public void decreaseReportCount() {
+        if (this.reportCount > 0) {
+            this.reportCount--;
+        }
+    }
+
 }
