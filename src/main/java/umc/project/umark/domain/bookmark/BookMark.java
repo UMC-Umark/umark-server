@@ -7,7 +7,8 @@ import org.hibernate.annotations.Where;
 import umc.project.umark.domain.HashTag.HashTag;
 import umc.project.umark.domain.mapping.BookMarkHashTag;
 import umc.project.umark.domain.mapping.BookMarkLike;
-import umc.project.umark.member.Member;
+
+import umc.project.umark.domain.member.Member;
 import umc.project.umark.domain.report.Report;
 import umc.project.umark.global.common.BaseEntity;
 
