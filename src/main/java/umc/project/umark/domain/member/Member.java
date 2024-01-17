@@ -1,14 +1,15 @@
-package umc.project.umark.member;
+package umc.project.umark.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc.project.umark.global.common.BaseEntity;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

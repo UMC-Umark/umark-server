@@ -1,4 +1,4 @@
-package umc.project.umark.member;
+package umc.project.umark.domain.member;
 
 public enum MemberStatus {
     ACTIVE, INACTIVE, WITHDRAWN;
