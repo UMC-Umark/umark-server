@@ -40,9 +40,6 @@ public class BookMark extends BaseEntity {
     @Column(nullable = false)
     private Integer reportCount=0;
 
-    @OneToMany(mappedBy = "bookmark")
-    private List<HashTag> hashTags;
-
     @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL)
     private List<Report> reports;
 
@@ -55,7 +52,6 @@ public class BookMark extends BaseEntity {
 
     @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL)
     private List<BookMarkHashTag> bookMarkHashTags;
-
 
     public void increaseLikeCount() {
         this.likeCount++;
