@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
 import umc.project.umark.domain.HashTag.HashTag;
+import umc.project.umark.domain.mapping.BookMarkHashTag;
+import umc.project.umark.domain.mapping.BookMarkLike;
+import umc.project.umark.member.Member;
 import umc.project.umark.domain.report.Report;
 import umc.project.umark.global.common.BaseEntity;
 
@@ -42,10 +45,15 @@ public class BookMark extends BaseEntity {
     @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL)
     private List<Report> reports;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn
-    //private Member member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Member member;
 
+    @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL)
+    private List<BookMarkLike> bookMarkLikes;
+
+    @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL)
+    private List<BookMarkHashTag> bookMarkHashTags;
 
 
     public void increaseLikeCount() {
