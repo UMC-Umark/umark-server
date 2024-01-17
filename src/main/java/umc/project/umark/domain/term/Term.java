@@ -16,7 +16,7 @@ public class Term extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(name ="member_id")
     private Member member;
 
     @Column(nullable = false)
