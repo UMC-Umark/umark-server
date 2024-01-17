@@ -26,5 +26,5 @@ public class Report extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    private BookMark bookMark;
+    private BookMark bookmark;
 }
