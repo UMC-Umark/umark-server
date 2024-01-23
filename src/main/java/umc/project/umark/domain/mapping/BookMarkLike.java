@@ -1,10 +1,10 @@
-package umc.project.umark.domain.report;
-
+package umc.project.umark.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
 import umc.project.umark.domain.bookmark.entity.BookMark;
+import umc.project.umark.domain.member.Member;
 import umc.project.umark.global.common.BaseEntity;
 
 @Getter
@@ -13,18 +13,25 @@ import umc.project.umark.global.common.BaseEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Where(clause = "deleted_at is null")
-public class Report extends BaseEntity {
+public class BookMarkLike extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private ReportType reportType;
-
-    @Column
-    private String reason;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private BookMark bookmark;
+
+    public void setMember(Member member){
+        this.member = member;
+    }
+    public void setBookMark(BookMark bookmark){
+        this.bookmark = bookmark;
+        bookmark.getBookMarkLikes().add(this);
+    }
+
 }

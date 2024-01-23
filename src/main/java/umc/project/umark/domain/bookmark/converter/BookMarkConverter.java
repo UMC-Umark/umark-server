@@ -5,6 +5,7 @@ import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
 import umc.project.umark.domain.bookmark.entity.BookMark;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 
 public class BookMarkConverter {
@@ -16,11 +17,12 @@ public class BookMarkConverter {
     }
     public static BookMark toBookMark(BookMarkRequest.BookMarkCreateRequestDTO request){
 
+
         return BookMark.builder()
                 .title(request.getTitle())
                 .url(request.getUrl())
                 .content(request.getContent())
-                .hashTags(request.getHashTags())
+                .bookMarkHashTags(new ArrayList<>())
                 .build();
     }
 }

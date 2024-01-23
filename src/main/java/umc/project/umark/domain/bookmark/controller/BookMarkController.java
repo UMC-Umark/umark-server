@@ -13,7 +13,7 @@ import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
 import umc.project.umark.domain.bookmark.entity.BookMark;
 import umc.project.umark.domain.bookmark.repository.BookMarkRepository;
 import umc.project.umark.domain.bookmark.service.BookMarkService;
-import umc.project.umark.global.common.BaseResponse;
+import umc.project.umark.global.common.ApiResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,10 +23,9 @@ public class BookMarkController {
     private final BookMarkService bookMarkService;
 
     @PostMapping("/add")
-    public BaseResponse<BookMarkResponse.BookMarkCreateResponseDTO> addBookMark(@RequestBody @Valid BookMarkRequest.BookMarkCreateRequestDTO request){
+    public ApiResponse<BookMarkResponse.BookMarkCreateResponseDTO> addBookMark(@RequestBody @Valid BookMarkRequest.BookMarkCreateRequestDTO request){
         BookMark newBookMark = bookMarkService.createBookMark(request);
-        return BaseResponse.onSuccess(BookMarkConverter.toBookMarkCreateResponseDTO(newBookMark));
+        return ApiResponse.onSuccess(BookMarkConverter.toBookMarkCreateResponseDTO(newBookMark));
     }
-
 
 }
