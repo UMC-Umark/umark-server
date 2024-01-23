@@ -24,7 +24,7 @@ public class BookMarkRequest {
         @Size(max = 250)
         private String content;
 
-        private List<HashTag> hashTags; //
+        private List<HashTag> hashTags;
 
     }
 

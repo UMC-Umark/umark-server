@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class HashTagConverter {
 
-    public static HashTag toHashTag(HashTag hashTag){
+    public static HashTag toHashTag(HashTag hashTag){    //인자로 받은 해쉬태그로 해쉬태그 엔티티 생성
         return HashTag.builder()
                 .content(hashTag.getContent())
                 .build();
