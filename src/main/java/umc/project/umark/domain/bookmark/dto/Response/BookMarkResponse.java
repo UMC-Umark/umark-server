@@ -19,4 +19,13 @@ public class BookMarkResponse {
         Long BookMarkId;
         LocalDateTime createdAt;
     }
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BookMarkLikeResponseDTO{
+        Long BookMarkId;
+        Integer likeCount;
+        LocalDateTime createdAt;
+    }
 }

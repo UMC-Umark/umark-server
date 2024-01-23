@@ -28,5 +28,14 @@ public class BookMarkRequest {
 
     }
 
+    @Getter
+    public static class BookMarkLikeRequestDTO{
+
+       private Long memberId;
+
+       private Long bookMarkId;
+
+    }
+
 
 }

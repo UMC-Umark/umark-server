@@ -32,4 +32,13 @@ public class BookMarkConverter {
                 .bookMarkHashTags(new ArrayList<>())
                 .build();
     }
+
+    public static BookMarkResponse.BookMarkLikeResponseDTO toBookMarkLikeResponseDTO(BookMark bookMark){
+
+        return BookMarkResponse.BookMarkLikeResponseDTO.builder()
+                .BookMarkId(bookMark.getId())
+                .likeCount(bookMark.getLikeCount())
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
 }

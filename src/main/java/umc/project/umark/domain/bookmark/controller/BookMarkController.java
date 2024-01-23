@@ -28,4 +28,10 @@ public class BookMarkController {
         return ApiResponse.onSuccess(BookMarkConverter.toBookMarkCreateResponseDTO(newBookMark));
     }
 
+//    @PostMapping("/likes")
+//    public ApiResponse<BookMarkResponse.BookMarkCreateResponseDTO> addBookMark(@RequestBody @Valid BookMarkRequest.BookMarkCreateRequestDTO request){
+//        BookMark newBookMark = bookMarkService.createBookMark(request);
+//        return ApiResponse.onSuccess(BookMarkConverter.toBookMarkCreateResponseDTO(newBookMark));
+//    }
+
 }
