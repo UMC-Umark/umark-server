@@ -9,7 +9,7 @@ public class MemberResponse {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class MemberRegistDto{
+    public static class MemberSignUpDto{
         private String email;
         private String univName;
         private String password;

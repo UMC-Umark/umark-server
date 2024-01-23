@@ -20,22 +20,22 @@ public class MemberController {
     private MemberService memberService;
 
     @PostMapping("/sendemail")
-    public String sendEmail(@RequestBody MemberResponse.MemberRegistDto memberRegistDto) throws IOException {
-        memberService.sendEmail(memberRegistDto.getEmail(), memberRegistDto.getUnivName());
+    public String sendEmail(@RequestBody MemberResponse.MemberSignUpDto memberSignUpDto) throws IOException {
+        memberService.sendEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName());
         return "test";
     }
 
     @PostMapping("/checkemail")
-    public String checkEmail(@RequestBody MemberResponse.MemberRegistDto memberRegistDto) throws IOException {
-        memberService.checkEmail(memberRegistDto.getEmail(), memberRegistDto.getUnivName(), memberRegistDto.getCode());
+    public String checkEmail(@RequestBody MemberResponse.MemberSignUpDto memberSignUpDto) throws IOException {
+        memberService.checkEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName(), memberSignUpDto.getCode());
         return "test";
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<MemberResponse.MemberResponseDto> signUpMember(@RequestBody MemberResponse.MemberRegistDto memberRegistDto) {
+    public ResponseEntity<MemberResponse.MemberResponseDto> signUpMember(@RequestBody MemberResponse.MemberSignUpDto memberSignUpDto) {
         try{
-            String email = memberRegistDto.getEmail();
-            String password = memberRegistDto.getPassword();
+            String email = memberSignUpDto.getEmail();
+            String password = memberSignUpDto.getPassword();
 
             memberService.signUpMember(email, password);
 
