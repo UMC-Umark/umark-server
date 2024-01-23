@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import umc.project.umark.global.exception.GlobalErrorCode;
 import umc.project.umark.global.exception.GlobalException;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
@@ -30,17 +31,13 @@ public class MemberService {
 
             if (result.get("success").equals(true)) {
                 return true;
-            }
-
-            else{
-                throw new GlobalException(GlobalErrorCode.WRONG_EMAIL_FORM);
+            } else{
+                throw new IOException((String)result.get("message"));
             }
 
         } catch (Exception e) {
-            e.getMessage();
+            throw e;
         }
-
-        return false;
     }
 
 
@@ -55,13 +52,11 @@ public class MemberService {
             }
 
             else{
-                throw new GlobalException(GlobalErrorCode.WRONG_EMAIL_FORM);
+                throw new IOException((String)result.get("message"));
             }
         } catch (Exception e) {
-        e.getMessage();
+            throw e;
         }
-
-        return false;
     }
 
     @Transactional

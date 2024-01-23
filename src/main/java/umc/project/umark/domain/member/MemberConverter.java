@@ -2,8 +2,8 @@ package umc.project.umark.domain.member;
 
 public class MemberConverter {
 
-    public static MemberApiResponse.MemberRegistDto memberRegistDto(String email, String univName, String password){
-        return MemberApiResponse.MemberRegistDto.builder()
+    public static MemberApiResponse.MemberSignUpDto memberSignUpDto(String email, String univName, String password){
+        return MemberApiResponse.MemberSignUpDto.builder()
                 .email(email)
                 .univName(univName)
                 .password(password)
