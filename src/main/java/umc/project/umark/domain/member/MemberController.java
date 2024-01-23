@@ -1,7 +1,6 @@
 package umc.project.umark.domain.member;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import umc.project.umark.global.exception.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,19 +19,19 @@ public class MemberController {
     private MemberService memberService;
 
     @PostMapping("/sendemail")
-    public String sendEmail(@RequestBody MemberResponse.MemberSignUpDto memberSignUpDto) throws IOException {
+    public String sendEmail(@RequestBody MemberApiResponse.MemberSignUpDto memberSignUpDto) throws IOException {
         memberService.sendEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName());
         return "test";
     }
 
     @PostMapping("/checkemail")
-    public String checkEmail(@RequestBody MemberResponse.MemberSignUpDto memberSignUpDto) throws IOException {
+    public String checkEmail(@RequestBody MemberApiResponse.MemberSignUpDto memberSignUpDto) throws IOException {
         memberService.checkEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName(), memberSignUpDto.getCode());
         return "test";
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<MemberResponse.MemberResponseDto> signUpMember(@RequestBody MemberResponse.MemberSignUpDto memberSignUpDto) {
+    public ResponseEntity<MemberApiResponse.MemberResponseDto> signUpMember(@RequestBody MemberApiResponse.MemberSignUpDto memberSignUpDto) {
         try{
             String email = memberSignUpDto.getEmail();
             String password = memberSignUpDto.getPassword();
