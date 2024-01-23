@@ -27,6 +27,7 @@ public enum GlobalErrorCode {
     NEED_AGREE_REQUIRE_TERMS(NOT_FOUND, "필수 약관에 동의해 주세요."),
     MEMBER_NOT_FOUND(NOT_FOUND, "등록된 사용자가 없습니다."),
     MEMBER_INFO_NOT_FOUND(NOT_FOUND, "등록된 사용자 정보가 없습니다."),
+    BOOKMARK_NOT_FOUND(NOT_FOUND, "존재하는 북마크가 없습니다."),
     // 409 CONFLICT : Resource 를 찾을 수 없음
     DUPLICATE_EMAIL(CONFLICT, "중복된 이메일이 존재합니다."),
     EXPIRED_REFRESH_TOKEN(BAD_REQUEST, "유효기간이 지난 토큰입니다."),
