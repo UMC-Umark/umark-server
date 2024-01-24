@@ -2,7 +2,7 @@ package umc.project.umark.domain.member;
 
 import lombok.*;
 
-public class MemberApiResponse {
+public class MemberDto {
 
     @Builder
     @Getter

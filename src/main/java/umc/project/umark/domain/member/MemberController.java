@@ -21,7 +21,7 @@ public class MemberController {
     private MemberService memberService;
 
     @PostMapping("/sendemail")
-    public ApiResponse<Map<String, Object>> sendEmail(@RequestBody MemberApiResponse.MemberSignUpDto memberSignUpDto) throws IOException {
+    public ApiResponse<Map<String, Object>> sendEmail(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) throws IOException {
         Map<String, Object> response =  new HashMap<>();
         try{
             Boolean result = memberService.sendEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName());
@@ -34,7 +34,7 @@ public class MemberController {
     }
 
     @PostMapping("/checkemail")
-    public ApiResponse<Map<String, Object>> checkEmail(@RequestBody MemberApiResponse.MemberSignUpDto memberSignUpDto) throws IOException {
+    public ApiResponse<Map<String, Object>> checkEmail(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) throws IOException {
         Map<String, Object> response = new HashMap<>();
         try{
             Boolean result = memberService.checkEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName(), memberSignUpDto.getCode());
@@ -47,7 +47,7 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public ApiResponse<MemberApiResponse.MemberResponseDto> signUpMember(@RequestBody MemberApiResponse.MemberSignUpDto memberSignUpDto) {
+    public ApiResponse<MemberDto.MemberResponseDto> signUpMember(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) {
         String email = memberSignUpDto.getEmail();
         String password = memberSignUpDto.getPassword();
         try{
