@@ -1,47 +1,28 @@
 package umc.project.umark.global.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @Getter
-@Builder
 @AllArgsConstructor
+@JsonPropertyOrder( {"isSuccess", "code", "message", "result"} )
 public class ApiResponse<T> {
-    private final int statusCode;
-    private final String message;
-    private final T data;
+    @JsonProperty("isSuccess")
+    private Boolean isSuccess;
+    private String code;
+    private String message;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private T result;
 
-    public static ApiResponse ErrorResponse(int statusCode, String message) {
-        return ApiResponse.builder()
-                .statusCode(statusCode)
-                .message(message)
-                .data("")
-                .build();
+    // 성공한 경우 응답 생성
+    public static <T> ApiResponse<T> onSuccess(T result) {
+        return new ApiResponse<>(true, "200", "요청에 성공하였습니다.", result);
     }
 
-    public static ResponseEntity ErrorResponse(GlobalErrorCode errorCode) {
-        return ResponseEntity
-                .status(errorCode.getHttpStatus())
-                .body(ApiResponse.builder()
-                        .statusCode(errorCode.getHttpStatus().value())
-                        .message(errorCode.getMessage())
-                        .data("")
-                        .build()
-                );
+    public static <T> ApiResponse<T> onFailure(GlobalErrorCode code, T data) {
+        return new ApiResponse<>(false, String.valueOf(code.getHttpStatus().value()), code.getMessage(), data);
     }
-
-    public static <T> ResponseEntity SuccessResponse(String message, T data){
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ApiResponse.builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .message(message)
-                        .data(data)
-                        .build()
-                );
-    }
-
 }

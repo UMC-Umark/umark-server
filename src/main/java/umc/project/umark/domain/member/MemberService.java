@@ -27,7 +27,7 @@ public class MemberService {
     public Boolean sendEmail (String email, String univName) throws IOException {
         try {
             Map<String, Object> result = UnivCert.certify(apiKey, email, univName, true);
-            log.info("메일 전송");
+            log.info("메일 전송 : {}", "메일 " + email + " 대학 " + univName);
 
             if (result.get("success").equals(true)) {
                 return true;
@@ -45,7 +45,7 @@ public class MemberService {
     public Boolean checkEmail (String email, String univName, int code) throws IOException {
         try {
             Map<String, Object> result = UnivCert.certifyCode(apiKey, email, univName, code);
-            log.info("메일 전송");
+            log.info("메일 인증 : {}", "메일 " + email + " 대학 " + univName + " 코드 " + code);
 
             if (result.get("success").equals(true)) {
                 return true;
