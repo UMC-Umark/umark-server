@@ -1,4 +1,4 @@
-package umc.project.umark.domain.term;
+package umc.project.umark.domain.term.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
