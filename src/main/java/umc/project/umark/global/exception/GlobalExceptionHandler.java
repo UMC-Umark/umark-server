@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value = { GlobalException.class})
-    protected ResponseEntity handleCustomException(GlobalException e) {
-        log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
-        return ApiResponse.ErrorResponse(e.getErrorCode());
-    }
+    //@ExceptionHandler(value = { GlobalException.class})
+    //protected ResponseEntity handleCustomException(GlobalException e) {
+      //  log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
+        // return ApiResponse.ErrorResponse(e.getErrorCode());
+    //}
 
 }

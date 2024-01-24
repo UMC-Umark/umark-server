@@ -1,10 +1,10 @@
-package umc.project.umark.domain.bookmark;
+package umc.project.umark.domain.bookmark.entity;
 
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
-import umc.project.umark.domain.HashTag.HashTag;
+import umc.project.umark.domain.hashtag.entity.HashTag;
 import umc.project.umark.domain.mapping.BookMarkHashTag;
 import umc.project.umark.domain.mapping.BookMarkLike;
 
@@ -25,7 +25,7 @@ public class BookMark extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+   @Column(nullable = true)
     private String title;
 
     @Column(nullable = true)
@@ -35,9 +35,11 @@ public class BookMark extends BaseEntity {
     private String content;
 
     @Column(nullable = false)
+    @Builder.Default
     private Integer likeCount=0;
 
     @Column(nullable = false)
+    @Builder.Default
     private Integer reportCount=0;
 
     @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL)

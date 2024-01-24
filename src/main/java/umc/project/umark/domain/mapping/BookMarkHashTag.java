@@ -3,8 +3,8 @@ package umc.project.umark.domain.mapping;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
-import umc.project.umark.domain.HashTag.HashTag;
-import umc.project.umark.domain.bookmark.BookMark;
+import umc.project.umark.domain.hashtag.entity.HashTag;
+import umc.project.umark.domain.bookmark.entity.BookMark;
 import umc.project.umark.global.common.BaseEntity;
 
 @Getter
@@ -31,7 +31,4 @@ public class BookMarkHashTag extends BaseEntity {
         bookmark.getBookMarkHashTags().add(this);
     }
 
-    public void setHashTag(HashTag hashtag){
-        this.hashtag = hashtag;
-    }
 }
