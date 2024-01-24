@@ -4,11 +4,10 @@ package umc.project.umark.domain.bookmark.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
-import umc.project.umark.domain.hashtag.entity.HashTag;
 import umc.project.umark.domain.mapping.BookMarkHashTag;
 import umc.project.umark.domain.mapping.BookMarkLike;
 
-import umc.project.umark.domain.member.Member;
+import umc.project.umark.domain.member.entity.Member;
 import umc.project.umark.domain.report.Report;
 import umc.project.umark.global.common.BaseEntity;
 

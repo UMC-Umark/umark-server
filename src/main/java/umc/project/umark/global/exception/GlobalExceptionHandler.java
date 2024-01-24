@@ -14,4 +14,5 @@ public class GlobalExceptionHandler {
         log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
          return ApiResponse.onFailure(e.getErrorCode(), "");
 
+    }
 }

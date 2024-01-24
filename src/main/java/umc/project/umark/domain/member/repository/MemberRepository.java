@@ -1,7 +1,8 @@
-package umc.project.umark.domain.member;
+package umc.project.umark.domain.member.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import umc.project.umark.domain.member.entity.Member;
 
 import java.util.Optional;
 

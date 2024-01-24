@@ -1,4 +1,4 @@
-package umc.project.umark.domain.member;
+package umc.project.umark.domain.member.dto;
 
 import lombok.*;
 

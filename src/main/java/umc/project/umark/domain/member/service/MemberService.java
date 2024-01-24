@@ -1,4 +1,4 @@
-package umc.project.umark.domain.member;
+package umc.project.umark.domain.member.service;
 
 import com.univcert.api.UnivCert;
 import lombok.extern.slf4j.Slf4j;
@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import umc.project.umark.domain.member.repository.MemberRepository;
+import umc.project.umark.domain.member.entity.MemberStatus;
+import umc.project.umark.domain.member.entity.Member;
 import umc.project.umark.global.exception.GlobalErrorCode;
 import umc.project.umark.global.exception.GlobalException;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
