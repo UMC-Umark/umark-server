@@ -58,7 +58,8 @@ public class BookMarkServiceImpl implements BookMarkService{
         // likeCount 증가
         bookmark.increaseLikeCount();
 
-       // BookMarkLike newBookMarkLike = BookMarkLikeConverter(member,bookmark);
+       // BookMarkLike newBookMarkLike = BookMarkLikeConverter(member);
+        //newBookMarkLike.setBookMark(bookmark);
 
         return bookmark;
 
