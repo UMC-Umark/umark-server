@@ -8,11 +8,11 @@ import umc.project.umark.global.common.ApiResponse;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(value = { GlobalException.class})
     protected ApiResponse handleCustomException(GlobalException e) {
         log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
          return ApiResponse.onFailure(e.getErrorCode(), "");
+
     }
-
-
 }

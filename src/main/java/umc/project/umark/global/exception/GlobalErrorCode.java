@@ -16,6 +16,8 @@ public enum GlobalErrorCode {
     PASSWORD_MISMATCH(BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
     DUPLICATE_PASSWORD(BAD_REQUEST, "비밀번호가 동일합니다."),
     NOT_VALID_PASSWORD(BAD_REQUEST, "영문, 숫자, 특수문자를 포함한 8~20 글자를 입력해 주세요."),
+    WRONG_EMAIL_FORM(BAD_REQUEST, "잘못된 이메일 형식입니다."),
+    NOT_MATCH_CODE(BAD_REQUEST, "코드가 일치하지 않습니다"),
 
     // 401 Unauthorized - 권한 없음
     INVALID_TOKEN(UNAUTHORIZED, "토큰이 유효하지 않습니다."),
