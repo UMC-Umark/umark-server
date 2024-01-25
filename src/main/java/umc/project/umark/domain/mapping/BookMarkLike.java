@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
 import umc.project.umark.domain.bookmark.entity.BookMark;
-import umc.project.umark.domain.member.Member;
+import umc.project.umark.domain.member.entity.Member;
 import umc.project.umark.global.common.BaseEntity;
 
 @Getter
