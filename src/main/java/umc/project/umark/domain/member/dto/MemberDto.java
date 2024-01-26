@@ -27,4 +27,14 @@ public class MemberDto {
         private String memberStatus;
     }
 
+    @Builder
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MemberFindPasswordDto{
+        private String email;
+        private String newPassword;
+    }
+
 }
