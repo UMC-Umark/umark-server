@@ -1,33 +1,32 @@
 package umc.project.umark.domain.member.controller;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import umc.project.umark.domain.member.converter.MemberConverter;
 import umc.project.umark.domain.member.dto.MemberDto;
-import umc.project.umark.domain.member.service.MemberServiceImpl;
+import umc.project.umark.domain.member.service.MemberService;
 import umc.project.umark.global.exception.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import umc.project.umark.global.exception.GlobalException;
 
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/member")
 public class MemberController {
 
-    @Autowired
-    private MemberServiceImpl memberServiceImpl;
+    private final MemberService memberService;
 
     @PostMapping("/sendemail")
     public ApiResponse<Map<String, Object>> sendEmail(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) throws IOException {
         Map<String, Object> response =  new HashMap<>();
         try{
-            Boolean result = memberServiceImpl.sendEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName());
+            Boolean result = memberService.sendEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName());
             response.put("success", result);
             return new ApiResponse<>(true, "200", "성공하였습니다", response);
         } catch (IOException e) {
@@ -40,7 +39,7 @@ public class MemberController {
     public ApiResponse<Map<String, Object>> checkEmail(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) throws IOException {
         Map<String, Object> response = new HashMap<>();
         try{
-            Boolean result = memberServiceImpl.checkEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName(), memberSignUpDto.getCode());
+            Boolean result = memberService.checkEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName(), memberSignUpDto.getCode());
             response.put("success", result);
             return new ApiResponse<>(true, "200", "성공하였습니다", response);
         } catch (IOException e){
@@ -54,10 +53,27 @@ public class MemberController {
         String email = memberSignUpDto.getEmail();
         String password = memberSignUpDto.getPassword();
         try{
-            memberServiceImpl.signUpMember(email, password);
-            return ApiResponse.onSuccess(MemberConverter.memberResponseDto(email, password));
+            return ApiResponse.onSuccess(MemberConverter.memberResponseDto(memberService.signUpMember(email, password)));
         } catch (GlobalException e){
-            return ApiResponse.onFailure(e.getErrorCode(), MemberConverter.memberResponseDto(email, password));
+            return ApiResponse.onFailure(e.getErrorCode(), MemberConverter.memberResponseDto(memberService.signUpMember(email, password)));
+        }
+    }
+
+    @GetMapping("/{memberId}")
+    public ApiResponse<MemberDto.MemberResponseDto> getMember(@PathVariable Long memberId){
+        try{
+            return ApiResponse.onSuccess(memberService.getMember(memberId));
+        } catch (GlobalException e){
+            return ApiResponse.onFailure(e.getErrorCode(), null);
+        }
+    }
+
+    @GetMapping("/all")
+    public ApiResponse<List<MemberDto.MemberResponseDto>> getAllMembers(){
+        try{
+            return ApiResponse.onSuccess(memberService.getAllMembers());
+        } catch (GlobalException e){
+            return ApiResponse.onFailure(e.getErrorCode(), null);
         }
     }
 

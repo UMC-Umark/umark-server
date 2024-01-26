@@ -1,6 +1,7 @@
 package umc.project.umark.domain.member.converter;
 
 import umc.project.umark.domain.member.dto.MemberDto;
+import umc.project.umark.domain.member.entity.Member;
 import umc.project.umark.domain.member.entity.MemberStatus;
 
 public class MemberConverter {
@@ -13,11 +14,11 @@ public class MemberConverter {
                 .build();
     }
 
-    public static MemberDto.MemberResponseDto memberResponseDto(String email, String password){
+    public static MemberDto.MemberResponseDto memberResponseDto(Member member){
         return MemberDto.MemberResponseDto.builder()
-                .email(email)
-                .password(password)
-                .memberStatus(MemberStatus.ACTIVE.toString())
+                .email(member.getEmail())
+                .password(member.getPassword())
+                .memberStatus(String.valueOf(member.getMemberStatus()))
                 .build();
     }
 }

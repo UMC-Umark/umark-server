@@ -17,12 +17,12 @@ public class ApiResponse<T> {
     private String code;
     private String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private T result;
+    private T data;
 
     // 성공한 경우 응답 생성
 
-    public static <T> ApiResponse<T> onSuccess(T result){
-        return new ApiResponse<>(true, "200" , "요청에 성공하였습니다.", result);
+    public static <T> ApiResponse<T> onSuccess(T data){
+        return new ApiResponse<>(true, "200" , "요청에 성공하였습니다.", data);
     }
 
     // 실패한 경우 응답 생성
