@@ -14,7 +14,7 @@ import umc.project.umark.domain.term.service.TermService;
 @Slf4j
 public class TermController {
 
-    private final TermService termService;
+//    private final TermService termService;
 
 //    @PostMapping("/term/add")
 //    public Object addTerm(

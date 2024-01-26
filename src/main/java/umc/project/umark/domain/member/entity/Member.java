@@ -23,9 +23,11 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus;
-
+    @Column
+    @Builder.Default
     private Integer writtenCount = 0;
-
+    @Column
+    @Builder.Default
     private Integer likedCount = 0;
 
     public void increaseWrittenCount() {
