@@ -28,12 +28,16 @@ public class BookMarkController {
 
     @PostMapping("/likes")
     public ApiResponse<BookMarkResponse.BookMarkLikeResponseDTO> BookMarkLike(@RequestParam Long bookMarkId, @RequestParam Long memberId) {
-        //try {
-            BookMark newBookMark = bookMarkService.LikeBookMark(memberId, bookMarkId);
-            return ApiResponse.onSuccess(BookMarkConverter.toBookMarkLikeResponseDTO(newBookMark));
-        //}catch (GlobalException e){
-            //return ApiResponse.ErrorResponse(e.getErrorCode());
-       // }
+
+            BookMark bookMark = bookMarkService.LikeBookMark(memberId, bookMarkId);
+            return ApiResponse.onSuccess(BookMarkConverter.toBookMarkLikeResponseDTO(bookMark));
+
     }
+
+//    @DeleteMapping("/BookMarks")
+//    public ApiResponse<BookMarkResponse.BookMarkDeleteResponseDTO> deleteBookMark(@RequestParam Long bookMarkId,@RequestParam Long memberId){
+//
+//        //return ApiResponse.onSuccess(BookMarkConverter.toBookMarkDeleteResponseDTO(member));
+//    }
 
 }
