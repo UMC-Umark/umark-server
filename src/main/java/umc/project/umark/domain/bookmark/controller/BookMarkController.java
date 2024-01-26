@@ -29,7 +29,7 @@ public class BookMarkController {
     @PostMapping("/likes")
     public ApiResponse<BookMarkResponse.BookMarkLikeResponseDTO> BookMarkLike(@RequestParam Long bookMarkId, @RequestParam Long memberId) {
 
-            BookMark bookMark = bookMarkService.LikeBookMark(memberId, bookMarkId);
+            BookMark bookMark = bookMarkService.likeBookMark(memberId, bookMarkId);
             return ApiResponse.onSuccess(BookMarkConverter.toBookMarkLikeResponseDTO(bookMark));
 
     }

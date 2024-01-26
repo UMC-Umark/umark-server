@@ -51,7 +51,7 @@ public class BookMarkServiceImpl implements BookMarkService{
 
     @Override
     @Transactional
-    public BookMark LikeBookMark(Long memberId, Long bookMarkId) {  //북마크에 좋아요 누르기
+    public BookMark likeBookMark(Long memberId, Long bookMarkId) {  //북마크에 좋아요 누르기
 
         //멤버가 존재하는지 검증
         Member member = memberRepository.findById(memberId)

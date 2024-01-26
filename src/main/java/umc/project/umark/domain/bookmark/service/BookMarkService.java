@@ -7,7 +7,7 @@ import umc.project.umark.domain.hashtag.service.HashTagService;
 
 public interface BookMarkService {
     BookMark createBookMark(BookMarkRequest.BookMarkCreateRequestDTO request);
-    BookMark LikeBookMark(Long memberId, Long bookMarkId);
+    BookMark likeBookMark(Long memberId, Long bookMarkId);
 
     //Long deleteBookMark(Long memberId, Long bookMarkId);
 
