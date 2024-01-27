@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkResponse;
 import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
 import umc.project.umark.domain.bookmark.entity.BookMark;
+import umc.project.umark.domain.mapping.BookMarkLike;
 import umc.project.umark.domain.member.entity.Member;
 
 import java.time.LocalDateTime;
@@ -34,11 +35,11 @@ public class BookMarkConverter {
                 .build();
     }
 
-    public static BookMarkResponse.BookMarkLikeResponseDTO toBookMarkLikeResponseDTO(BookMark bookMark){
+    public static BookMarkResponse.BookMarkLikeResponseDTO toBookMarkLikeResponseDTO(BookMarkLike bookMarkLike){
 
         return BookMarkResponse.BookMarkLikeResponseDTO.builder()
-                .bookMarkId(bookMark.getId())
-                .likeCount(bookMark.getLikeCount())
+                .bookMarkId(bookMarkLike.getBookmark().getId())
+                .likeCount(bookMarkLike.getBookmark().getLikeCount())
                 .createdAt(LocalDateTime.now())
                 .build();
     }

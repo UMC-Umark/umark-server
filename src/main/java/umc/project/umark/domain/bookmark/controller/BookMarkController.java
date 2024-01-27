@@ -10,6 +10,7 @@ import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
 import umc.project.umark.domain.bookmark.entity.BookMark;
 import umc.project.umark.domain.bookmark.repository.BookMarkRepository;
 import umc.project.umark.domain.bookmark.service.BookMarkService;
+import umc.project.umark.domain.mapping.BookMarkLike;
 import umc.project.umark.global.common.ApiResponse;
 import umc.project.umark.global.exception.GlobalException;
 
@@ -29,8 +30,8 @@ public class BookMarkController {
     @PostMapping("/likes")
     public ApiResponse<BookMarkResponse.BookMarkLikeResponseDTO> BookMarkLike(@RequestParam Long bookMarkId, @RequestParam Long memberId) {
 
-            BookMark bookMark = bookMarkService.likeBookMark(memberId, bookMarkId);
-            return ApiResponse.onSuccess(BookMarkConverter.toBookMarkLikeResponseDTO(bookMark));
+            BookMarkLike bookMarkLike = bookMarkService.likeBookMark(memberId, bookMarkId);
+            return ApiResponse.onSuccess(BookMarkConverter.toBookMarkLikeResponseDTO(bookMarkLike));
 
     }
 
