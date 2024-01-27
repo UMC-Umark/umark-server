@@ -23,6 +23,7 @@ public class Term extends BaseEntity {
     private String description;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isAgree = false;
 
     @Column(nullable = false)

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import umc.project.umark.domain.member.converter.MemberConverter;
+import umc.project.umark.domain.member.dto.MemberDto;
 import umc.project.umark.domain.member.repository.MemberRepository;
 import umc.project.umark.domain.member.entity.MemberStatus;
 import umc.project.umark.domain.member.entity.Member;
@@ -13,6 +15,8 @@ import umc.project.umark.global.exception.GlobalErrorCode;
 import umc.project.umark.global.exception.GlobalException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -83,6 +87,34 @@ public class MemberServiceImpl implements MemberService {
 
             return member;
         }
+    }
+
+    @Override
+    public MemberDto.MemberResponseDto getMember(Long memberId) {
+        Optional<Member> findMember = memberRepository.findById(memberId);
+
+        if (findMember.isPresent()) {
+            Member member = findMember.get();
+            MemberDto.MemberResponseDto memberResponseDto= MemberConverter.memberResponseDto(member);
+            return memberResponseDto;
+        }
+
+        else{
+            throw new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public List<MemberDto.MemberResponseDto> getAllMembers() {
+        List<Member> members = memberRepository.findAll();
+        List<MemberDto.MemberResponseDto> memberResponseDtos = new ArrayList<>();
+
+        for (Member member : members) {
+            MemberDto.MemberResponseDto memberResponseDto = MemberConverter.memberResponseDto(member);
+            memberResponseDtos.add(memberResponseDto);
+        }
+
+        return memberResponseDtos;
     }
 
 }
