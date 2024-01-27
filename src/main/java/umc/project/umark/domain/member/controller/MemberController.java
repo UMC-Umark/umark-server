@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/member")
+@RequestMapping("/member")
 public class MemberController {
 
     private final MemberService memberService;
@@ -76,6 +76,7 @@ public class MemberController {
         }
     }
 
+    /*
     @PostMapping("/sendpasswordmail")
     public ApiResponse<String> snedFindPasswordMail(@RequestBody MemberDto.MemberFindPasswordDto findPasswordDto) {
         try {
@@ -84,6 +85,7 @@ public class MemberController {
             return ApiResponse.onFailure(e.getErrorCode(), null);
         }
     }
+     */
 
     @PatchMapping("/changepasswordbyemail")
     public ApiResponse<MemberDto.MemberResponseDto> changePasswordByEmail(@RequestBody MemberDto.MemberFindPasswordDto findPasswordDto) {

@@ -28,11 +28,11 @@ public class MemberServiceImpl implements MemberService {
     @Value("${univcert.apikey}")
     private String apiKey;
 
-    @Value("${spring.mail.username}")
-    private String sender;
+    //@Value("${spring.mail.username}")
+    //private String sender;
 
     private final MemberRepository memberRepository;
-    private final JavaMailSender javaMailSender;
+    // private final JavaMailSender javaMailSender;
 
     @Override
     public Boolean sendEmail(String email, String univName) throws IOException {
@@ -59,6 +59,7 @@ public class MemberServiceImpl implements MemberService {
             log.info("메일 인증 : {}", "메일 " + email + " 대학 " + univName + " 코드 " + code);
 
             if (result.get("success").equals(true)) {
+                UnivCert.clear(apiKey, email);
                 return true;
             }
 
@@ -72,7 +73,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Member signUpMember(String email, String password) throws GlobalException {
+    public Member signUpMember(String email, String password) {
 
         Optional <Member> findMember = memberRepository.findByEmail(email);
 
@@ -121,6 +122,7 @@ public class MemberServiceImpl implements MemberService {
         return memberResponseDtos;
     }
 
+    /*
     @Override
     public String makeRandomCode() {
 
@@ -158,6 +160,8 @@ public class MemberServiceImpl implements MemberService {
 
         return code;
     }
+
+     */
 
     @Override
     @Transactional
