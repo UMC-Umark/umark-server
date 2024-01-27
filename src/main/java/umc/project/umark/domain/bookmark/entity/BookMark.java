@@ -34,6 +34,9 @@ public class BookMark extends BaseEntity {
     private String content;
 
     @Column(nullable = false)
+    private boolean isModified = false;
+
+    @Column(nullable = false)
     @Builder.Default
     private Integer likeCount=0;
 

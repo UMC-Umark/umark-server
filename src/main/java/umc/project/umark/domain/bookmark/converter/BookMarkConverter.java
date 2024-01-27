@@ -35,11 +35,11 @@ public class BookMarkConverter {
                 .build();
     }
 
-    public static BookMarkResponse.BookMarkLikeResponseDTO toBookMarkLikeResponseDTO(BookMarkLike bookMarkLike){
+    public static BookMarkResponse.BookMarkLikeResponseDTO toBookMarkLikeResponseDTO(BookMark bookMark){
 
         return BookMarkResponse.BookMarkLikeResponseDTO.builder()
-                .bookMarkId(bookMarkLike.getBookmark().getId())
-                .likeCount(bookMarkLike.getBookmark().getLikeCount())
+                .bookMarkId(bookMark.getId())
+                .likeCount(bookMark.getLikeCount())
                 .createdAt(LocalDateTime.now())
                 .build();
     }

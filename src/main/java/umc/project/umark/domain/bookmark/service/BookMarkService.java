@@ -8,7 +8,7 @@ import umc.project.umark.domain.mapping.BookMarkLike;
 
 public interface BookMarkService {
     BookMark createBookMark(BookMarkRequest.BookMarkCreateRequestDTO request);
-    BookMarkLike likeBookMark(Long memberId, Long bookMarkId);
+    BookMark likeBookMark(Long memberId, Long bookMarkId);
 
     //Long deleteBookMark(Long memberId, Long bookMarkId);
 
