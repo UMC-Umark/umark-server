@@ -32,6 +32,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'com.github.in-seo:univcert:master-SNAPSHOT' //학교 이메일 체크
     implementation 'com.googlecode.json-simple:json-simple:1.1.1' //json 파싱
+    implementation 'org.springframework.boot:spring-boot-starter-mail' //java mail
 }
 
 tasks.named('test') {
