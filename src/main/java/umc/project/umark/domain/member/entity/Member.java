@@ -49,4 +49,8 @@ public class Member extends BaseEntity {
             this.likedCount--;
         }
     }
+
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
+    }
 }

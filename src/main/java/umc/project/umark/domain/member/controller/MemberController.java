@@ -6,7 +6,6 @@ import umc.project.umark.domain.member.converter.MemberConverter;
 import umc.project.umark.domain.member.dto.MemberDto;
 import umc.project.umark.domain.member.service.MemberService;
 import umc.project.umark.global.exception.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import umc.project.umark.global.exception.GlobalException;
 
 
@@ -17,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/member")
+@RequestMapping("/member")
 public class MemberController {
 
     private final MemberService memberService;
@@ -73,6 +72,35 @@ public class MemberController {
         try{
             return ApiResponse.onSuccess(memberService.getAllMembers());
         } catch (GlobalException e){
+            return ApiResponse.onFailure(e.getErrorCode(), null);
+        }
+    }
+
+    /*
+    @PostMapping("/sendpasswordmail")
+    public ApiResponse<String> snedFindPasswordMail(@RequestBody MemberDto.MemberFindPasswordDto findPasswordDto) {
+        try {
+            return ApiResponse.onSuccess(memberService.sendFindPasswordMail(findPasswordDto.getEmail()));
+        } catch (GlobalException e) {
+            return ApiResponse.onFailure(e.getErrorCode(), null);
+        }
+    }
+     */
+
+    @PatchMapping("/changepasswordbyemail")
+    public ApiResponse<MemberDto.MemberResponseDto> changePasswordByEmail(@RequestBody MemberDto.MemberFindPasswordDto findPasswordDto) {
+        try {
+            return ApiResponse.onSuccess(MemberConverter.memberResponseDto(memberService.changePasswordByEmail(findPasswordDto.getEmail(), findPasswordDto.getNewPassword())));
+        } catch (GlobalException e) {
+            return ApiResponse.onFailure(e.getErrorCode(), null);
+        }
+    }
+
+    @PatchMapping("/changepassword/{memberId}")
+    public ApiResponse<MemberDto.MemberResponseDto> changePassword(@RequestBody MemberDto.MemberFindPasswordDto findPasswordDto, @PathVariable Long memberId) {
+        try {
+            return ApiResponse.onSuccess(MemberConverter.memberResponseDto(memberService.changePassword(memberId, findPasswordDto.getNewPassword())));
+        } catch (GlobalException e) {
             return ApiResponse.onFailure(e.getErrorCode(), null);
         }
     }
