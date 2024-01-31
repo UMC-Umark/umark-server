@@ -37,10 +37,10 @@ public class BookMarkController {
 
     }
 
-//    @DeleteMapping("/BookMarks")
-//    public ApiResponse<BookMarkResponse.BookMarkDeleteResponseDTO> deleteBookMark(@RequestParam Long bookMarkId,@RequestParam Long memberId){
-//
-//        //return ApiResponse.onSuccess(BookMarkConverter.toBookMarkDeleteResponseDTO(member));
-//    }
+   @DeleteMapping("/delete")
+   public ApiResponse<BookMarkResponse.BookMarkDeleteResponseDTO> deleteBookMark(@RequestParam Long bookMarkId,@RequestParam Long memberId){
+        Long deletedBookMarkId = bookMarkService.deleteBookMark(memberId,bookMarkId);
+       return ApiResponse.onSuccess(BookMarkConverter.toBookMarkDeleteResponseDTO(deletedBookMarkId));
+   }
 
 }
