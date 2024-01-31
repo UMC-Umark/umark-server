@@ -35,14 +35,6 @@ public class BookMarkConverter {
                 .build();
     }
 
-    public static BookMarkResponse.BookMarkLikeResponseDTO toBookMarkLikeResponseDTO(BookMark bookMark){
-
-        return BookMarkResponse.BookMarkLikeResponseDTO.builder()
-                .bookMarkId(bookMark.getId())
-                .likeCount(bookMark.getLikeCount())
-                .createdAt(LocalDateTime.now())
-                .build();
-    }
 
     public static BookMarkResponse.BookMarkDeleteResponseDTO toBookMarkDeleteResponseDTO(Long deletedBookMarkId){
 
