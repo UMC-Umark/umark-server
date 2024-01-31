@@ -13,6 +13,10 @@ import umc.project.umark.domain.bookmark.service.BookMarkService;
 import umc.project.umark.domain.mapping.BookMarkLike;
 import umc.project.umark.domain.mapping.converter.BookMarkLikeConverter;
 import umc.project.umark.domain.mapping.dto.BookMarkLikeResponse;
+import umc.project.umark.domain.report.Report;
+import umc.project.umark.domain.report.converter.ReportConverter;
+import umc.project.umark.domain.report.dto.Request.ReportRequest;
+import umc.project.umark.domain.report.dto.Response.ReportResponse;
 import umc.project.umark.global.common.ApiResponse;
 import umc.project.umark.global.exception.GlobalException;
 
@@ -20,7 +24,7 @@ import umc.project.umark.global.exception.GlobalException;
 @RequiredArgsConstructor
 @RequestMapping("/BookMarks")
 public class BookMarkController {
-    private final BookMarkRepository bookMarkRepository;
+
     private final BookMarkService bookMarkService;
 
     @PostMapping("/add")
@@ -42,5 +46,13 @@ public class BookMarkController {
         Long deletedBookMarkId = bookMarkService.deleteBookMark(memberId,bookMarkId);
        return ApiResponse.onSuccess(BookMarkConverter.toBookMarkDeleteResponseDTO(deletedBookMarkId));
    }
+
+    @PostMapping("/reports")
+    public ApiResponse<ReportResponse.ReportResponseDTO> createReport(@RequestBody ReportRequest.ReportRequestDTO request) {
+
+        Report newReport = bookMarkService.createReport(request);
+        return ApiResponse.onSuccess(ReportConverter.toReportCreateResponseDTO(newReport));
+
+    }
 
 }

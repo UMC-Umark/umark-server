@@ -16,6 +16,10 @@ import umc.project.umark.domain.mapping.BookMarkLike;
 import umc.project.umark.domain.mapping.converter.BookMarkHashTagConverter;
 import umc.project.umark.domain.mapping.repository.BookMarkLikeRepository;
 import umc.project.umark.domain.member.entity.Member;
+import umc.project.umark.domain.report.Report;
+import umc.project.umark.domain.report.converter.ReportConverter;
+import umc.project.umark.domain.report.dto.Request.ReportRequest;
+import umc.project.umark.domain.report.repository.ReportRepository;
 import umc.project.umark.global.exception.GlobalErrorCode;
 import umc.project.umark.global.exception.GlobalException;
 import umc.project.umark.domain.member.repository.MemberRepository;
@@ -36,6 +40,7 @@ public class BookMarkServiceImpl implements BookMarkService{
     private final HashTagRepository hashTagRepository;
     private final HashTagService hashTagService;
     private final BookMarkLikeRepository bookMarkLikeRepository;
+    private final ReportRepository reportRepository;
     @Override
     @Transactional
     public BookMark createBookMark(BookMarkRequest.BookMarkCreateRequestDTO request) {  //북마크 생성
@@ -117,5 +122,24 @@ public class BookMarkServiceImpl implements BookMarkService{
        return deletedBookMarkId;
 
    }
+
+    @Override
+    @Transactional
+    public Report createReport(ReportRequest.ReportRequestDTO request){
+        Long memberId = request.getMemberId();
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
+
+        Long bookMarkId = request.getBookMarkId();
+
+        BookMark bookmark = bookMarkRepository.findById(bookMarkId)
+                .orElseThrow(() -> new GlobalException(GlobalErrorCode.BOOKMARK_NOT_FOUND));
+
+        Report newReport = ReportConverter.toReport(request);
+        newReport.setBookMark(bookmark);
+        bookmark.increaseReportCount();
+        return reportRepository.save(newReport);
+    }
 
 }
