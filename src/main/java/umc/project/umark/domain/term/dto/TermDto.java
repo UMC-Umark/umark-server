@@ -12,8 +12,19 @@ public class TermDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class TermRequestDto {
+        String title;
         String description;
-        Boolean isAgree;
+        Boolean isCrucial;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TermResponseDto {
+        Long id;
+        String title;
+        String description;
         Boolean isCrucial;
     }
 }
