@@ -194,4 +194,17 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    @Override
+    @Transactional
+    public void withdraw(Long memberId) {
+        Optional <Member> findMember = memberRepository.findById(memberId);
+
+        if (findMember.isPresent()) {
+            Member member = findMember.get();
+            member.withdraw();
+        } else {
+            throw new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND);
+        }
+    }
+
 }
