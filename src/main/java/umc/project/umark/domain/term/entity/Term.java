@@ -20,6 +20,9 @@ public class Term extends BaseEntity {
     private Member member;
 
     @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
