@@ -22,7 +22,7 @@ import umc.project.umark.global.exception.GlobalException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/BookMarks")
+@RequestMapping("/bookmarks")
 public class BookMarkController {
 
     private final BookMarkService bookMarkService;
@@ -33,19 +33,25 @@ public class BookMarkController {
         return ApiResponse.onSuccess(BookMarkConverter.toBookMarkCreateResponseDTO(newBookMark));
     }
 
-    @PostMapping("/likes")
-    public ApiResponse<BookMarkLikeResponse.BookMarkLikeResponseDTO> BookMarkLike(@RequestParam Long bookMarkId, @RequestParam Long memberId) {
+    @PostMapping("/{bookMarkId}/likes")
+    public ApiResponse<BookMarkLikeResponse.BookMarkLikeResponseDTO> bookMarkLike(
+            @PathVariable Long bookMarkId,
+            @RequestParam Long memberId) {
 
-            BookMark bookMark = bookMarkService.likeBookMark(memberId, bookMarkId);
-            return ApiResponse.onSuccess(BookMarkLikeConverter.toBookMarkLikeResponseDTO(bookMark));
-
+        BookMark bookMark = bookMarkService.likeBookMark(memberId, bookMarkId);
+        return ApiResponse.onSuccess(BookMarkLikeConverter.toBookMarkLikeResponseDTO(bookMark));
     }
 
-   @DeleteMapping("/delete")
-   public ApiResponse<BookMarkResponse.BookMarkDeleteResponseDTO> deleteBookMark(@RequestParam Long bookMarkId,@RequestParam Long memberId){
-        Long deletedBookMarkId = bookMarkService.deleteBookMark(memberId,bookMarkId);
-       return ApiResponse.onSuccess(BookMarkConverter.toBookMarkDeleteResponseDTO(deletedBookMarkId));
-   }
+
+    @DeleteMapping("/delete/{bookMarkId}/{memberId}")
+    public ApiResponse<BookMarkResponse.BookMarkDeleteResponseDTO> deleteBookMark(
+            @PathVariable Long bookMarkId,
+            @PathVariable Long memberId) {
+
+        Long deletedBookMarkId = bookMarkService.deleteBookMark(memberId, bookMarkId);
+        return ApiResponse.onSuccess(BookMarkConverter.toBookMarkDeleteResponseDTO(deletedBookMarkId));
+    }
+
 
     @PostMapping("/reports")
     public ApiResponse<ReportResponse.ReportResponseDTO> createReport(@RequestBody ReportRequest.ReportRequestDTO request) {
