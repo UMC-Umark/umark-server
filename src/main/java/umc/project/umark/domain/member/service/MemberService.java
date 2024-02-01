@@ -20,4 +20,6 @@ public interface MemberService {
     // public String sendFindPasswordMail(String email);
     public Member changePasswordByEmail(String email, String newPassword);
     public Member changePassword(Long memberId, String newPassword);
+
+    public void withdraw(Long memberId);
 }

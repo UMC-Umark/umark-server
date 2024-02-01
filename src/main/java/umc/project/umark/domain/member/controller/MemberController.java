@@ -23,8 +23,8 @@ public class MemberController {
 
     @PostMapping("/sendemail")
     public ApiResponse<Map<String, Object>> sendEmail(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) throws IOException {
-        Map<String, Object> response =  new HashMap<>();
-        try{
+        Map<String, Object> response = new HashMap<>();
+        try {
             Boolean result = memberService.sendEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName());
             response.put("success", result);
             return new ApiResponse<>(true, "200", "성공하였습니다", response);
@@ -37,11 +37,11 @@ public class MemberController {
     @PostMapping("/checkemail")
     public ApiResponse<Map<String, Object>> checkEmail(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) throws IOException {
         Map<String, Object> response = new HashMap<>();
-        try{
+        try {
             Boolean result = memberService.checkEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName(), memberSignUpDto.getCode());
             response.put("success", result);
             return new ApiResponse<>(true, "200", "성공하였습니다", response);
-        } catch (IOException e){
+        } catch (IOException e) {
             response.put("error", e);
             return new ApiResponse<>(false, "400", e.getMessage().toString(), response);
         }
@@ -51,27 +51,27 @@ public class MemberController {
     public ApiResponse<MemberDto.MemberResponseDto> signUpMember(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) {
         String email = memberSignUpDto.getEmail();
         String password = memberSignUpDto.getPassword();
-        try{
+        try {
             return ApiResponse.onSuccess(MemberConverter.memberResponseDto(memberService.signUpMember(email, password)));
-        } catch (GlobalException e){
+        } catch (GlobalException e) {
             return ApiResponse.onFailure(e.getErrorCode(), MemberConverter.memberResponseDto(memberService.signUpMember(email, password)));
         }
     }
 
     @GetMapping("/{memberId}")
-    public ApiResponse<MemberDto.MemberResponseDto> getMember(@PathVariable Long memberId){
-        try{
+    public ApiResponse<MemberDto.MemberResponseDto> getMember(@PathVariable Long memberId) {
+        try {
             return ApiResponse.onSuccess(memberService.getMember(memberId));
-        } catch (GlobalException e){
+        } catch (GlobalException e) {
             return ApiResponse.onFailure(e.getErrorCode(), null);
         }
     }
 
     @GetMapping("/all")
-    public ApiResponse<List<MemberDto.MemberResponseDto>> getAllMembers(){
-        try{
+    public ApiResponse<List<MemberDto.MemberResponseDto>> getAllMembers() {
+        try {
             return ApiResponse.onSuccess(memberService.getAllMembers());
-        } catch (GlobalException e){
+        } catch (GlobalException e) {
             return ApiResponse.onFailure(e.getErrorCode(), null);
         }
     }
@@ -100,6 +100,18 @@ public class MemberController {
     public ApiResponse<MemberDto.MemberResponseDto> changePassword(@RequestBody MemberDto.MemberFindPasswordDto findPasswordDto, @PathVariable Long memberId) {
         try {
             return ApiResponse.onSuccess(MemberConverter.memberResponseDto(memberService.changePassword(memberId, findPasswordDto.getNewPassword())));
+        } catch (GlobalException e) {
+            return ApiResponse.onFailure(e.getErrorCode(), null);
+        }
+    }
+
+    @PatchMapping("/{memberId}")
+    public ApiResponse witdraw(
+            @PathVariable Long memberId
+    ) {
+        try {
+            memberService.withdraw(memberId);
+            return ApiResponse.onSuccess(null);
         } catch (GlobalException e) {
             return ApiResponse.onFailure(e.getErrorCode(), null);
         }
