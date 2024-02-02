@@ -110,14 +110,10 @@ public class BookMarkController {
             @RequestParam(name = "page") Integer page,
             @RequestParam String keyWord
     ) {
-        try {
-            if (keyWord == null) {
-                throw new GlobalException(GlobalErrorCode.NOT_VALID_KEYWORD);
-            } else {
-                return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkBySearch(keyWord, page));
-            }
-        } catch (GlobalException e) {
-            return ApiResponse.onFailure(e.getErrorCode(), null);
+        if (keyWord == null) {
+            throw new GlobalException(GlobalErrorCode.NOT_VALID_KEYWORD);
+        } else {
+            return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkBySearch(keyWord, page));
         }
     }
     /*@PutMapping("/bookmarks/{bookMarkid}")//북마크 수정
