@@ -16,6 +16,10 @@ import umc.project.umark.domain.mapping.BookMarkLike;
 import umc.project.umark.domain.mapping.converter.BookMarkHashTagConverter;
 import umc.project.umark.domain.mapping.repository.BookMarkLikeRepository;
 import umc.project.umark.domain.member.entity.Member;
+import umc.project.umark.domain.report.Report;
+import umc.project.umark.domain.report.converter.ReportConverter;
+import umc.project.umark.domain.report.dto.Request.ReportRequest;
+import umc.project.umark.domain.report.repository.ReportRepository;
 import umc.project.umark.global.exception.GlobalErrorCode;
 import umc.project.umark.global.exception.GlobalException;
 import umc.project.umark.domain.member.repository.MemberRepository;
@@ -36,10 +40,16 @@ public class BookMarkServiceImpl implements BookMarkService{
     private final HashTagRepository hashTagRepository;
     private final HashTagService hashTagService;
     private final BookMarkLikeRepository bookMarkLikeRepository;
+    private final ReportRepository reportRepository;
     @Override
     @Transactional
     public BookMark createBookMark(BookMarkRequest.BookMarkCreateRequestDTO request) {  //북마크 생성
-        BookMark newBookMark = BookMarkConverter.toBookMark(request); // dto를 엔티티로 바꾼거
+        Long memberId = request.getMemberId();
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
+
+        BookMark newBookMark = BookMarkConverter.toBookMark(request,member); // dto를 엔티티로 바꾼거
 
         List<HashTag> hashTagList = request.getHashTags().stream()
                 .map(hashTag -> {
@@ -48,6 +58,8 @@ public class BookMarkServiceImpl implements BookMarkService{
 
         List <BookMarkHashTag> bookMarkHashTagList = BookMarkHashTagConverter.toBookMarkHashTagList(hashTagList); //request에 있는 것들로 bookmarkhashtag 만들기
         bookMarkHashTagList.forEach(bookMarkHashTag -> bookMarkHashTag.setBookMark(newBookMark));
+
+        member.increaseWrittenCount();
         return bookMarkRepository.save(newBookMark);
 
     }
@@ -70,6 +82,7 @@ public class BookMarkServiceImpl implements BookMarkService{
         if(existingLike.isPresent()){
             BookMarkLike bookMarkLike = existingLike.get();
             bookmark.decreaseLikeCount();  // 좋아요 수 감소
+            member.decreaseLikedCount();   //내가 좋아요 한 수 감소
             bookMarkLikeRepository.deleteById(bookMarkLike.getId());  // BookMarkLike 엔터티 삭제
 
         }
@@ -77,7 +90,7 @@ public class BookMarkServiceImpl implements BookMarkService{
         else{
         // likeCount 증가
         bookmark.increaseLikeCount();
-
+        member.increaseLikedCount();
         //BookMarkLike에 멤버, 북마크 객체 주입
          BookMarkLike newBookMarkLike = BookMarkLikeConverter.toBookMarkLike(member);
          newBookMarkLike.setBookMark(bookmark);
@@ -87,24 +100,46 @@ public class BookMarkServiceImpl implements BookMarkService{
 
     }
 
-//    @Override
-//    @Transactional
-//    public Long deleteBookMark(Long memberId, Long bookMarkId){
-//        //멤버가 존재하는지 검증
-//        Member member = memberRepository.findById(memberId)
-//                .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
-//
-//        //게시물이 존재하는지 검증
-//        BookMark bookmark = bookMarkRepository.findById(bookMarkId)
-//                .orElseThrow(() -> new GlobalException(GlobalErrorCode.BOOKMARK_NOT_FOUND));
-//
-//        if (bookmark.getMember().getId() != memberId) {
-//            //만약 게시물의 작성자와 삭제하고자 하는 멤버의 id가 다르다면
-//            throw new GlobalException(GlobalErrorCode.MEMBER_NOT_AUTHORIZED);
-//        }
-//
-//        return bookmark.getId();
-//
-//    }
+   @Override
+   @Transactional
+   public Long deleteBookMark(Long memberId, Long bookMarkId){
+       //멤버가 존재하는지 검증
+       Member member = memberRepository.findById(memberId)
+               .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
+
+       //게시물이 존재하는지 검증
+       BookMark bookmark = bookMarkRepository.findById(bookMarkId)
+               .orElseThrow(() -> new GlobalException(GlobalErrorCode.BOOKMARK_NOT_FOUND));
+
+       if (!bookmark.getMember().equals(member)) {
+           //만약 게시물의 작성자와 삭제하고자 하는 멤버의 id가 다르다면
+           throw new GlobalException(GlobalErrorCode.MEMBER_NOT_AUTHORIZED);
+       }
+
+       Long deletedBookMarkId = bookmark.getId();         //삭제할 북마크의 아이디 저장
+       bookMarkRepository.deleteById(bookmark.getId());   //북마크 삭제 cascade.all타입이므로 관련 mapping table은 자동 삭제
+       member.decreaseWrittenCount();
+       return deletedBookMarkId;
+
+   }
+
+    @Override
+    @Transactional
+    public Report createReport(ReportRequest.ReportRequestDTO request){
+        Long memberId = request.getMemberId();
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
+
+        Long bookMarkId = request.getBookMarkId();
+
+        BookMark bookmark = bookMarkRepository.findById(bookMarkId)
+                .orElseThrow(() -> new GlobalException(GlobalErrorCode.BOOKMARK_NOT_FOUND));
+
+        Report newReport = ReportConverter.toReport(request);
+        newReport.setBookMark(bookmark);
+        bookmark.increaseReportCount();
+        return reportRepository.save(newReport);
+    }
 
 }

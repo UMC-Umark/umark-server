@@ -13,14 +13,18 @@ import umc.project.umark.domain.bookmark.service.BookMarkService;
 import umc.project.umark.domain.mapping.BookMarkLike;
 import umc.project.umark.domain.mapping.converter.BookMarkLikeConverter;
 import umc.project.umark.domain.mapping.dto.BookMarkLikeResponse;
+import umc.project.umark.domain.report.Report;
+import umc.project.umark.domain.report.converter.ReportConverter;
+import umc.project.umark.domain.report.dto.Request.ReportRequest;
+import umc.project.umark.domain.report.dto.Response.ReportResponse;
 import umc.project.umark.global.common.ApiResponse;
 import umc.project.umark.global.exception.GlobalException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/BookMarks")
+@RequestMapping("/bookmarks")
 public class BookMarkController {
-    private final BookMarkRepository bookMarkRepository;
+
     private final BookMarkService bookMarkService;
 
     @PostMapping("/add")
@@ -29,18 +33,32 @@ public class BookMarkController {
         return ApiResponse.onSuccess(BookMarkConverter.toBookMarkCreateResponseDTO(newBookMark));
     }
 
-    @PostMapping("/likes")
-    public ApiResponse<BookMarkLikeResponse.BookMarkLikeResponseDTO> BookMarkLike(@RequestParam Long bookMarkId, @RequestParam Long memberId) {
+    @PostMapping("/{bookMarkId}/likes")
+    public ApiResponse<BookMarkLikeResponse.BookMarkLikeResponseDTO> bookMarkLike(
+            @PathVariable Long bookMarkId,
+            @RequestParam Long memberId) {
 
-            BookMark bookMark = bookMarkService.likeBookMark(memberId, bookMarkId);
-            return ApiResponse.onSuccess(BookMarkLikeConverter.toBookMarkLikeResponseDTO(bookMark));
-
+        BookMark bookMark = bookMarkService.likeBookMark(memberId, bookMarkId);
+        return ApiResponse.onSuccess(BookMarkLikeConverter.toBookMarkLikeResponseDTO(bookMark));
     }
 
-//    @DeleteMapping("/BookMarks")
-//    public ApiResponse<BookMarkResponse.BookMarkDeleteResponseDTO> deleteBookMark(@RequestParam Long bookMarkId,@RequestParam Long memberId){
-//
-//        //return ApiResponse.onSuccess(BookMarkConverter.toBookMarkDeleteResponseDTO(member));
-//    }
+
+    @DeleteMapping("/delete/{bookMarkId}/{memberId}")
+    public ApiResponse<BookMarkResponse.BookMarkDeleteResponseDTO> deleteBookMark(
+            @PathVariable Long bookMarkId,
+            @PathVariable Long memberId) {
+
+        Long deletedBookMarkId = bookMarkService.deleteBookMark(memberId, bookMarkId);
+        return ApiResponse.onSuccess(BookMarkConverter.toBookMarkDeleteResponseDTO(deletedBookMarkId));
+    }
+
+
+    @PostMapping("/reports")
+    public ApiResponse<ReportResponse.ReportResponseDTO> createReport(@RequestBody ReportRequest.ReportRequestDTO request) {
+
+        Report newReport = bookMarkService.createReport(request);
+        return ApiResponse.onSuccess(ReportConverter.toReportCreateResponseDTO(newReport));
+
+    }
 
 }
