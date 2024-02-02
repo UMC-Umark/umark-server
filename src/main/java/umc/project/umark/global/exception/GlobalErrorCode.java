@@ -18,6 +18,7 @@ public enum GlobalErrorCode {
     NOT_VALID_PASSWORD(BAD_REQUEST, "영문, 숫자, 특수문자를 포함한 8~20 글자를 입력해 주세요."),
     WRONG_EMAIL_FORM(BAD_REQUEST, "잘못된 이메일 형식입니다."),
     NOT_MATCH_CODE(BAD_REQUEST, "코드가 일치하지 않습니다"),
+    NOT_VALID_KEYWORD(BAD_REQUEST, "유효하지 않은 검색어 입니다."),
 
     // 401 Unauthorized - 권한 없음
     INVALID_TOKEN(UNAUTHORIZED, "토큰이 유효하지 않습니다."),
@@ -30,7 +31,6 @@ public enum GlobalErrorCode {
     NEED_AGREE_REQUIRE_TERMS(NOT_FOUND, "필수 약관에 동의해 주세요."),
     MEMBER_NOT_FOUND(NOT_FOUND, "등록된 사용자가 없습니다."),
     MEMBER_INFO_NOT_FOUND(NOT_FOUND, "등록된 사용자 정보가 없습니다."),
-
     BOOKMARK_NOT_FOUND(NOT_FOUND, "존재하는 북마크가 없습니다."),
     // 409 CONFLICT : Resource 를 찾을 수 없음
     DUPLICATE_EMAIL(CONFLICT, "중복된 이메일이 존재합니다."),

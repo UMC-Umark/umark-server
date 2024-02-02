@@ -30,5 +30,21 @@ public class BookMarkRequest {
 
     }
 
+    @Getter
+    public static class BookMarkUpdateRequest{
+
+        @Size(max = 20)
+        private String title;
+
+        @Size(max = 20)
+        private String url;
+
+        @Size(max = 250)
+        private String content;
+
+        private List<HashTag> hashTags;
+
+    }
+
 
 }

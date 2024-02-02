@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import umc.project.umark.domain.bookmark.dto.Response.BookMarkInquiryResponse;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkResponse;
 import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
 import umc.project.umark.domain.bookmark.entity.BookMark;
@@ -13,9 +15,12 @@ import umc.project.umark.domain.member.repository.MemberRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
+@Component
 public class BookMarkConverter {
 
     public static BookMarkResponse.BookMarkCreateResponseDTO toBookMarkCreateResponseDTO(BookMark bookMark){ //response dto 생성
@@ -47,6 +52,22 @@ public class BookMarkConverter {
                 .deletedAt(LocalDateTime.now())
                 .build();
 
+    }
+
+    public BookMarkInquiryResponse toBookMarkInquiryResponse(BookMark bookmark){
+        List<String> hashTagContent = bookmark.getBookMarkHashTags().stream()
+                .map(bookMarkHashTag -> bookMarkHashTag.getHashtag().getContent())
+                .collect(Collectors.toList());
+
+
+        return BookMarkInquiryResponse.builder()
+                .id(bookmark.getId())
+                .title(bookmark.getTitle())
+                .createdAt(bookmark.getCreatedAt())
+                .hashTagContent(hashTagContent)
+                .content(bookmark.getContent())
+                .url(bookmark.getUrl())
+                .build();
     }
 
 }
