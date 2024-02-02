@@ -19,6 +19,9 @@ public class Member extends BaseEntity {
     private String email;
 
     @Column(nullable = false)
+    private String univ;
+
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
