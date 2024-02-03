@@ -52,10 +52,11 @@ public class MemberController {
         String email = memberSignUpDto.getEmail();
         String password = memberSignUpDto.getPassword();
         String univ = memberSignUpDto.getUnivName();
+        List<Integer> term = memberSignUpDto.getTerms();
         try {
-            return ApiResponse.onSuccess(MemberConverter.memberResponseDto(memberService.signUpMember(email, password, univ)));
+            return ApiResponse.onSuccess(MemberConverter.memberResponseDto(memberService.signUpMember(email, password, univ, term)));
         } catch (GlobalException e) {
-            return ApiResponse.onFailure(e.getErrorCode(), MemberConverter.memberResponseDto(memberService.signUpMember(email, password, univ)));
+            return ApiResponse.onFailure(e.getErrorCode(), MemberConverter.memberResponseDto(memberService.signUpMember(email, password, univ, term)));
         }
     }
 

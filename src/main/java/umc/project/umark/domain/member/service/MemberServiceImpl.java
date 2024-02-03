@@ -73,7 +73,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Member signUpMember(String email, String password, String univ) {
+    public Member signUpMember(String email, String password, String univ, List<Integer> terms) {
 
         Optional <Member> findMember = memberRepository.findByEmail(email);
 
