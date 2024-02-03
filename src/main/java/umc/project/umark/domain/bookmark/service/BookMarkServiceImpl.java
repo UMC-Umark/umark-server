@@ -29,6 +29,7 @@ import umc.project.umark.global.exception.GlobalException;
 import umc.project.umark.domain.member.repository.MemberRepository;
 import umc.project.umark.domain.mapping.converter.BookMarkLikeConverter;
 
+import java.awt.print.Book;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -181,11 +182,19 @@ public class BookMarkServiceImpl implements BookMarkService{
 
     @Override //모든 북마크 검색
     public Page<BookMarkInquiryResponse> inquiryBookMarkBySearch(String keyWord, Integer page){
-        LocalDateTime weekAgo = LocalDateTime.now().minusWeeks(1);
-        Page <BookMark> bookMarkPage = bookMarkRepository.findAllBySearch(keyWord, PageRequest.of(page, 15), weekAgo);
+        Page <BookMark> bookMarkPage = bookMarkRepository.findAllBySearch(keyWord, PageRequest.of(page, 15));
 
         return bookMarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
     }
+
+    @Override //추천 북마크 검색
+    public Page<BookMarkInquiryResponse> inquiryBookMarkByLikeCountAndSearch(String keyword, Integer page){
+        Page <BookMark> bookMarkPage = bookMarkRepository.findAllByLikeCountAndSearch(keyword, PageRequest.of(page, 15));
+
+        return bookMarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
+    }
+
+
 
     /*@Override//북마크 수정
     public BookMarkUpdateResponse updateBookMark(Long bookMarkId, BookMarkRequest.BookMarkUpdateRequest request){

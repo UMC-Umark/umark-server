@@ -105,7 +105,7 @@ public class BookMarkController {
         }
     }
 
-    @GetMapping("/search") // 북마크 검색
+    @GetMapping("/search") //모든 북마크 검색
     public ApiResponse<Page<BookMarkInquiryResponse>> inquiryBookMarkBySearch(
             @RequestParam(name = "page") Integer page,
             @RequestParam String keyWord
@@ -116,7 +116,18 @@ public class BookMarkController {
             return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkBySearch(keyWord, page));
         }
     }
-    /*@PutMapping("/bookmarks/{bookMarkid}")//북마크 수정
+    @GetMapping("/recommend/search") //추천 북마크 검색
+    public ApiResponse<Page<BookMarkInquiryResponse>> inquiryBookMarkByLikeCountAndSearch(
+            @RequestParam(name = "page") Integer page,
+            @RequestParam String keyWord
+    ) {
+        if (keyWord == null) {
+            throw new GlobalException(GlobalErrorCode.NOT_VALID_KEYWORD);
+        } else {
+            return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkByLikeCountAndSearch(keyWord, page));
+        }
+    }
+    /*@PutMapping("/bookmarks/{bookmarkId}")//북마크 수정
     public ApiResponse<BookMarkResponse> updateBookMark(@PathVariable Long id, @RequestBody BookMarkRequest.BookMarkUpdateRequest request){
         return ApiResponse.onSuccess(bookMarkService.updateBookMark(memberId, page));;
     }*/
