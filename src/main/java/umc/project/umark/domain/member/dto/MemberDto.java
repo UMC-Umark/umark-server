@@ -2,6 +2,8 @@ package umc.project.umark.domain.member.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 public class MemberDto {
 
     @Builder
@@ -14,6 +16,7 @@ public class MemberDto {
         private String univName;
         private String password;
         private int code;
+        private List<Integer> terms;
     }
 
     @Builder
