@@ -77,4 +77,12 @@ public class BookMark extends BaseEntity {
         }
     }
 
+    public void update(String title, String url, String content, List<BookMarkHashTag> bookMarkHashTags){
+        this.title = title;
+        this.url = url;
+        this.content =content;
+        this.bookMarkHashTags = bookMarkHashTags;
+        markAsModified();
+    }
+
 }

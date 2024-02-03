@@ -3,8 +3,10 @@ package umc.project.umark.domain.bookmark.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import umc.project.umark.domain.bookmark.converter.BookMarkConverter;
+import umc.project.umark.domain.bookmark.dto.Response.BookMarkInquiryResponse;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkResponse;
 import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
 import umc.project.umark.domain.bookmark.entity.BookMark;
@@ -18,6 +20,7 @@ import umc.project.umark.domain.report.converter.ReportConverter;
 import umc.project.umark.domain.report.dto.Request.ReportRequest;
 import umc.project.umark.domain.report.dto.Response.ReportResponse;
 import umc.project.umark.global.common.ApiResponse;
+import umc.project.umark.global.exception.GlobalErrorCode;
 import umc.project.umark.global.exception.GlobalException;
 
 @RestController
@@ -60,5 +63,66 @@ public class BookMarkController {
         return ApiResponse.onSuccess(ReportConverter.toReportCreateResponseDTO(newReport));
 
     }
+
+    @GetMapping("/") // 모든 북마크 조회
+    public ApiResponse<Page<BookMarkInquiryResponse>> inquiryBookMark(@RequestParam(name = "page") Integer page) {
+        try {
+            return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkPage(page));
+        } catch (GlobalException e) {
+            return ApiResponse.onFailure(e.getErrorCode(), null);
+        }
+    }
+
+    @GetMapping("/recommends") // 추천 북마크 조회
+    public ApiResponse<Page<BookMarkInquiryResponse>> inquiryBookMarkByLikeCount(@RequestParam(name = "page") Integer page){
+        try {
+            return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkByLikeCount(page));
+        } catch (GlobalException e) {
+            return ApiResponse.onFailure(e.getErrorCode(), null);
+        }
+    }
+    @GetMapping("/{memberId}/mywrite") // 내가 쓴 북마크 조회
+    public ApiResponse<Page<BookMarkInquiryResponse>> inquiryBookMarkByMember(
+            @RequestParam(name = "page") Integer page,
+            @PathVariable Long memberId
+    ) {
+        try {
+            return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkByMember(memberId, page));
+        } catch (GlobalException e) {
+            return  ApiResponse.onFailure(e.getErrorCode(), null);
+        }
+    }
+
+    @GetMapping("/{memberId}/mylike") // 내가 좋아요한 북마크 조회
+    public ApiResponse<Page<BookMarkInquiryResponse>> inquiryBookMarkByMemberLike(
+            @RequestParam(name = "page") Integer page,
+            @PathVariable Long memberId
+    ) {
+        try {
+            return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkByMemberLike(memberId, page));
+        } catch (GlobalException e) {
+            return ApiResponse.onFailure(e.getErrorCode(), null);
+        }
+    }
+
+    @GetMapping("/search") // 북마크 검색
+    public ApiResponse<Page<BookMarkInquiryResponse>> inquiryBookMarkBySearch(
+            @RequestParam(name = "page") Integer page,
+            @RequestParam String keyWord
+    ) {
+        try {
+            if (keyWord == null) {
+                throw new GlobalException(GlobalErrorCode.NOT_VALID_KEYWORD);
+            } else {
+                return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkBySearch(keyWord, page));
+            }
+        } catch (GlobalException e) {
+            return ApiResponse.onFailure(e.getErrorCode(), null);
+        }
+    }
+    /*@PutMapping("/bookmarks/{bookMarkid}")//북마크 수정
+    public ApiResponse<BookMarkResponse> updateBookMark(@PathVariable Long id, @RequestBody BookMarkRequest.BookMarkUpdateRequest request){
+        return ApiResponse.onSuccess(bookMarkService.updateBookMark(memberId, page));;
+    }*/
 
 }
