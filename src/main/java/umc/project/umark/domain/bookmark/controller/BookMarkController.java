@@ -64,7 +64,7 @@ public class BookMarkController {
 
     }
 
-    @GetMapping("/") // 모든 북마크 조회
+    @GetMapping("") // 모든 북마크 조회
     public ApiResponse<Page<BookMarkInquiryResponse>> inquiryBookMark(@RequestParam(name = "page") Integer page) {
         try {
             return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkPage(page));
