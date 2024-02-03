@@ -13,7 +13,7 @@ public interface MemberService {
 
     public Boolean checkEmail(String email, String univName, int code) throws  IOException;
 
-    public Member signUpMember(String email, String password);
+    public Member signUpMember(String email, String password, String univ);
     public MemberDto.MemberResponseDto getMember(Long memberId);
     public List<MemberDto.MemberResponseDto> getAllMembers();
     // public String makeRandomCode();

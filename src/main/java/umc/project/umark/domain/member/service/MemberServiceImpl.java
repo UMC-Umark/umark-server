@@ -73,7 +73,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Member signUpMember(String email, String password) {
+    public Member signUpMember(String email, String password, String univ) {
 
         Optional <Member> findMember = memberRepository.findByEmail(email);
 
@@ -84,6 +84,7 @@ public class MemberServiceImpl implements MemberService {
         else{
             Member member = Member.builder()
                     .email(email)
+                    .univ(univ)
                     .password(password)
                     .memberStatus(MemberStatus.ACTIVE)
                     .build();

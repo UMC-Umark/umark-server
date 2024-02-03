@@ -23,6 +23,7 @@ public class MemberDto {
     @AllArgsConstructor
     public static class MemberResponseDto{
         private String email;
+        private String univ;
         private String password;
         private String memberStatus;
     }
