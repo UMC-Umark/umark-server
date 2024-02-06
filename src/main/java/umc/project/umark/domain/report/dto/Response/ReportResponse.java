@@ -15,8 +15,9 @@ public class ReportResponse {
     @AllArgsConstructor
     public static class ReportResponseDTO{
 
-        Long reportId;
-        String selectedType;
+        Long bookMarkId;
+        Integer reportCount;
+        boolean isReported;
         LocalDateTime createdAt;
 
     }

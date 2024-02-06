@@ -1,6 +1,7 @@
 package umc.project.umark.domain.report.converter;
 
 import lombok.extern.slf4j.Slf4j;
+import umc.project.umark.domain.bookmark.entity.BookMark;
 import umc.project.umark.domain.report.Report;
 import umc.project.umark.domain.report.ReportType;
 import umc.project.umark.domain.report.dto.Request.ReportRequest;
@@ -34,13 +35,14 @@ public class ReportConverter {
                 .build();
 
     }
-    public static ReportResponse.ReportResponseDTO toReportCreateResponseDTO(Report report){ //response dto 생성
-        ReportType reportType = report.getReportType();
-        String description = (reportType != null) ? reportType.getDescription() : null;
+    public static ReportResponse.ReportResponseDTO toReportCreateResponseDTO(BookMark bookmark){ //response dto 생성
+//        ReportType reportType = report.getReportType();
+//        String description = (reportType != null) ? reportType.getDescription() : null;
 
         return  ReportResponse.ReportResponseDTO.builder()
-                .reportId(report.getId())
-                .selectedType(description)
+                .bookMarkId(bookmark.getId())
+                .reportCount(bookmark.getReportCount())
+                .isReported(bookmark.isReported())
                 .createdAt(LocalDateTime.now())
                 .build();
 
