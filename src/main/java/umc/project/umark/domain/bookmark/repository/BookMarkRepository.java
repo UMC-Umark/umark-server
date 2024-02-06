@@ -24,6 +24,6 @@ public interface BookMarkRepository extends JpaRepository<BookMark, Long> {
     @Query("SELECT DISTINCT  b FROM BookMark b JOIN b.bookMarkHashTags t WHERE t.hashtag.content LIKE %:keyword% OR b.content LIKE %:keyword% OR b.title LIKE %:keyword%")
     Page<BookMark> findAllBySearch(String keyword, Pageable pageable);
 
-    @Query("SELECT DISTINCT b FROM BookMark b JOIN b.bookMarkHashTags t WHERE b.likeCount > 9 AND t.hashtag.content LIKE %:keyword% OR b.content LIKE %:keyword% OR b.title LIKE %:keyword%")
+    @Query("SELECT DISTINCT b FROM BookMark b JOIN b.bookMarkHashTags t WHERE b.likeCount > 9 AND (t.hashtag.content LIKE %:keyword% OR b.content LIKE %:keyword% OR b.title LIKE %:keyword%)")
     Page<BookMark> findAllByLikeCountAndSearch(String keyword, Pageable pageable);
 }
