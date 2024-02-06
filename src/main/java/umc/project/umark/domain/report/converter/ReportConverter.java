@@ -36,14 +36,12 @@ public class ReportConverter {
 
     }
     public static ReportResponse.ReportResponseDTO toReportCreateResponseDTO(BookMark bookmark){ //response dto 생성
-//        ReportType reportType = report.getReportType();
-//        String description = (reportType != null) ? reportType.getDescription() : null;
 
         return  ReportResponse.ReportResponseDTO.builder()
                 .bookMarkId(bookmark.getId())
                 .reportCount(bookmark.getReportCount())
                 .isReported(bookmark.isReported())
-                .createdAt(LocalDateTime.now())
+                .reportCreatedAt(LocalDateTime.now())
                 .build();
 
     }

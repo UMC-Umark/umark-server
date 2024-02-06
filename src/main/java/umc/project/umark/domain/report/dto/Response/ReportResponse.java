@@ -18,7 +18,7 @@ public class ReportResponse {
         Long bookMarkId;
         Integer reportCount;
         boolean isReported;
-        LocalDateTime createdAt;
+        LocalDateTime reportCreatedAt;
 
     }
 }
