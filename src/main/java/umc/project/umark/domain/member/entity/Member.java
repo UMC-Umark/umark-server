@@ -2,7 +2,11 @@ package umc.project.umark.domain.member.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc.project.umark.domain.term.entity.Term;
 import umc.project.umark.global.common.BaseEntity;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -32,6 +36,15 @@ public class Member extends BaseEntity {
     @Column
     @Builder.Default
     private Integer likedCount = 0;
+
+    @Builder.Default
+    @ManyToMany
+    @JoinTable(
+            name = "user_terms",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "termId")
+    )
+    private Set<Term> agreedTerms = new HashSet<>();
 
     public void increaseWrittenCount() {
         this.writtenCount++;

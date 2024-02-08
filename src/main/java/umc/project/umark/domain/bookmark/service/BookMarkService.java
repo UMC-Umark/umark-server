@@ -14,7 +14,7 @@ public interface BookMarkService {
     BookMark createBookMark(BookMarkRequest.BookMarkCreateRequestDTO request);
     BookMark likeBookMark(Long memberId, Long bookMarkId);
     Long deleteBookMark(Long memberId, Long bookMarkId);
-    Report createReport(ReportRequest.ReportRequestDTO request);
+    BookMark createReport(ReportRequest.ReportRequestDTO request);
 
     Page<BookMarkInquiryResponse> inquiryBookMarkPage(Integer page);//모든 북마크 조회
     Page<BookMarkInquiryResponse> inquiryBookMarkByLikeCount(Integer page); // 추천 북마크 조회

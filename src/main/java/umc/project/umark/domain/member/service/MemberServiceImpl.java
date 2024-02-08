@@ -12,11 +12,14 @@ import umc.project.umark.domain.member.dto.MemberDto;
 import umc.project.umark.domain.member.repository.MemberRepository;
 import umc.project.umark.domain.member.entity.MemberStatus;
 import umc.project.umark.domain.member.entity.Member;
+import umc.project.umark.domain.term.entity.Term;
+import umc.project.umark.domain.term.repository.TermRepository;
 import umc.project.umark.global.exception.GlobalErrorCode;
 import umc.project.umark.global.exception.GlobalException;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -31,6 +34,8 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     // private final JavaMailSender javaMailSender;
+
+    private final TermRepository termRepository;
 
     @Override
     public Boolean sendEmail(String email, String univName) throws IOException {
@@ -87,10 +92,20 @@ public class MemberServiceImpl implements MemberService {
                 .memberStatus(MemberStatus.ACTIVE)
                 .build();
 
+        Set<Term> agreedTerms = terms.stream()
+                .map(termId -> termRepository.findById(Long.valueOf(termId)))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+
+        member.getAgreedTerms().addAll(agreedTerms);
+
+        // 회원 저장
         memberRepository.save(member);
 
         return member;
     }
+
 
     @Override
     public MemberDto.MemberResponseDto getMember(Long memberId) {
