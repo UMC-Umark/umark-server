@@ -68,6 +68,7 @@ public class BookMarkConverter {
                 .hashTagContent(hashTagContent)
                 .content(bookmark.getContent())
                 .url(bookmark.getUrl())
+                .likeCount(bookmark.getLikeCount())
                 .build();
     }
 
