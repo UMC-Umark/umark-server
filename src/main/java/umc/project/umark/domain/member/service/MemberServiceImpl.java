@@ -5,7 +5,6 @@ import com.univcert.api.UnivCert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.project.umark.domain.member.converter.MemberConverter;
@@ -15,7 +14,6 @@ import umc.project.umark.domain.member.entity.MemberStatus;
 import umc.project.umark.domain.member.entity.Member;
 import umc.project.umark.global.exception.GlobalErrorCode;
 import umc.project.umark.global.exception.GlobalException;
-import org.springframework.mail.javamail.JavaMailSender;
 
 import java.io.IOException;
 import java.util.*;
@@ -55,6 +53,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Boolean checkEmail(String email, String univName, int code) throws IOException {
         try {
+
+            Optional <Member> findMember = memberRepository.findByEmail(email);
+
+            if (findMember.isPresent()){
+                throw new GlobalException(GlobalErrorCode.DUPLICATE_EMAIL);
+            }
+
             Map<String, Object> result = UnivCert.certifyCode(apiKey, email, univName, code);
             log.info("메일 인증 : {}", "메일 " + email + " 대학 " + univName + " 코드 " + code);
 
@@ -75,24 +80,16 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public Member signUpMember(String email, String password, String univ, List<Integer> terms) {
 
-        Optional <Member> findMember = memberRepository.findByEmail(email);
+        Member member = Member.builder()
+                .email(email)
+                .univ(univ)
+                .password(password)
+                .memberStatus(MemberStatus.ACTIVE)
+                .build();
 
-        if (findMember.isPresent()){
-            throw new GlobalException(GlobalErrorCode.DUPLICATE_EMAIL);
-        }
+        memberRepository.save(member);
 
-        else{
-            Member member = Member.builder()
-                    .email(email)
-                    .univ(univ)
-                    .password(password)
-                    .memberStatus(MemberStatus.ACTIVE)
-                    .build();
-
-            memberRepository.save(member);
-
-            return member;
-        }
+        return member;
     }
 
     @Override
