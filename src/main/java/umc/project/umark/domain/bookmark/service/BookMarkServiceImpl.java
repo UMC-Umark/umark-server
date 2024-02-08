@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import umc.project.umark.domain.bookmark.converter.BookMarkConverter;
 import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkInquiryResponse;
+import umc.project.umark.domain.bookmark.dto.Response.BookMarkUpdateResponse;
 import umc.project.umark.domain.bookmark.entity.BookMark;
 import umc.project.umark.domain.bookmark.repository.BookMarkRepository;
 import umc.project.umark.domain.hashtag.entity.HashTag;
@@ -202,7 +203,8 @@ public class BookMarkServiceImpl implements BookMarkService{
 
 
 
-    /*@Override//북마크 수정
+    @Override//북마크 수정
+    @Transactional
     public BookMarkUpdateResponse updateBookMark(Long bookMarkId, BookMarkRequest.BookMarkUpdateRequest request){
         BookMark bookMark = bookMarkRepository.findById(bookMarkId).orElseThrow(() -> null);
 
@@ -213,7 +215,7 @@ public class BookMarkServiceImpl implements BookMarkService{
         List <BookMarkHashTag> bookMarkHashTagList = BookMarkHashTagConverter.toBookMarkHashTagList(hashTagList);
 
         bookMark.update(request.getTitle(), request.getUrl(), request.getContent(), bookMarkHashTagList);
-        return bookMarkConverter.toBookMarkUpdateResponseDTO(bookMarkRepository.save(bookMark));
-    }*/
+        return bookMarkConverter.toBookMarkUpdateReponse(bookMarkRepository.save(bookMark));
+    }
 
 }
