@@ -37,6 +37,9 @@ public class BookMark extends BaseEntity {
     private boolean isModified = false;
 
     @Column(nullable = false)
+    private boolean isReported = false;
+
+    @Column(nullable = false)
     @Builder.Default
     private Integer likeCount=0;
 
@@ -83,6 +86,9 @@ public class BookMark extends BaseEntity {
         this.content =content;
         this.bookMarkHashTags = bookMarkHashTags;
         markAsModified();
+    }
+    public void setReported(boolean reported) {
+        this.isReported = reported;
     }
 
 }
