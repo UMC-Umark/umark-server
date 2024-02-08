@@ -25,6 +25,7 @@ public class MemberDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class MemberResponseDto{
+        private Long id;
         private String email;
         private String univ;
         private String password;

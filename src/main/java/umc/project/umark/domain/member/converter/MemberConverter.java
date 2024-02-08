@@ -16,6 +16,7 @@ public class MemberConverter {
 
     public static MemberDto.MemberResponseDto memberResponseDto(Member member){
         return MemberDto.MemberResponseDto.builder()
+                .id(member.getId())
                 .email(member.getEmail())
                 .univ(member.getUniv())
                 .password(member.getPassword())
