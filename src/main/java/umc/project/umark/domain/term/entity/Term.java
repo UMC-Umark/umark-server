@@ -32,6 +32,7 @@ public class Term extends BaseEntity {
     @Column(nullable = false)
     private Boolean isCrucial;
 
+
     public void setCrucial(Boolean crucial) {
         isCrucial = crucial;
     }

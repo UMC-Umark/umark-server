@@ -60,8 +60,8 @@ public class BookMarkController {
     @PostMapping("/reports")
     public ApiResponse<ReportResponse.ReportResponseDTO> createReport(@RequestBody ReportRequest.ReportRequestDTO request) {
 
-        Report newReport = bookMarkService.createReport(request);
-        return ApiResponse.onSuccess(ReportConverter.toReportCreateResponseDTO(newReport));
+       BookMark bookmark = bookMarkService.createReport(request);
+        return ApiResponse.onSuccess(ReportConverter.toReportCreateResponseDTO(bookmark));
 
     }
 

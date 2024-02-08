@@ -133,7 +133,7 @@ public class BookMarkServiceImpl implements BookMarkService{
 
     @Override
     @Transactional
-    public Report createReport(ReportRequest.ReportRequestDTO request){
+    public BookMark createReport(ReportRequest.ReportRequestDTO request){    //북마크에 신고 누르기
         Long memberId = request.getMemberId();
 
         Member member = memberRepository.findById(memberId)
@@ -147,7 +147,11 @@ public class BookMarkServiceImpl implements BookMarkService{
         Report newReport = ReportConverter.toReport(request);
         newReport.setBookMark(bookmark);
         bookmark.increaseReportCount();
-        return reportRepository.save(newReport);
+        if(bookmark.getReportCount()>=10){          //신고 누적 수가 10이상이면 북마크 상태가 신고됨으로 바뀜.
+           bookmark.setReported(true);
+        }
+        reportRepository.save(newReport);
+        return bookmark;
     }
 
     @Override // 모든 북마크 조회
