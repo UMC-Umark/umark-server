@@ -1,6 +1,5 @@
 package umc.project.umark.domain.member.service;
 
-import jakarta.mail.MessagingException;
 import umc.project.umark.domain.member.dto.MemberDto;
 import umc.project.umark.domain.member.entity.Member;
 
