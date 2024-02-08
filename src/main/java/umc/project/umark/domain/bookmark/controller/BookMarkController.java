@@ -9,6 +9,7 @@ import umc.project.umark.domain.bookmark.converter.BookMarkConverter;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkInquiryResponse;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkResponse;
 import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
+import umc.project.umark.domain.bookmark.dto.Response.BookMarkUpdateResponse;
 import umc.project.umark.domain.bookmark.entity.BookMark;
 import umc.project.umark.domain.bookmark.repository.BookMarkRepository;
 import umc.project.umark.domain.bookmark.service.BookMarkService;
@@ -127,9 +128,9 @@ public class BookMarkController {
             return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkByLikeCountAndSearch(keyWord, page));
         }
     }
-    /*@PutMapping("/bookmarks/{bookmarkId}")//북마크 수정
-    public ApiResponse<BookMarkResponse> updateBookMark(@PathVariable Long id, @RequestBody BookMarkRequest.BookMarkUpdateRequest request){
-        return ApiResponse.onSuccess(bookMarkService.updateBookMark(memberId, page));;
-    }*/
+    @PutMapping("/{bookmarkId}")//북마크 수정
+    public ApiResponse<BookMarkUpdateResponse> updateBookMark(@PathVariable Long bookmarkId, @RequestBody BookMarkRequest.BookMarkUpdateRequest request){
+        return ApiResponse.onSuccess(bookMarkService.updateBookMark(bookmarkId, request));
+    }
 
 }

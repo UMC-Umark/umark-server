@@ -15,4 +15,5 @@ public class BookMarkInquiryResponse {
     private List<String> hashTagContent;
     private String content;
     private String url;
+    private Integer likeCount;
 }

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import umc.project.umark.domain.bookmark.converter.BookMarkConverter;
 import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkInquiryResponse;
+import umc.project.umark.domain.bookmark.dto.Response.BookMarkUpdateResponse;
 import umc.project.umark.domain.bookmark.entity.BookMark;
 import umc.project.umark.domain.bookmark.repository.BookMarkRepository;
 import umc.project.umark.domain.hashtag.entity.HashTag;
@@ -156,7 +157,7 @@ public class BookMarkServiceImpl implements BookMarkService{
     @Override // 모든 북마크 조회
     @Transactional
     public Page<BookMarkInquiryResponse> inquiryBookMarkPage(Integer page){
-        Page <BookMark> bookMarkPage = bookMarkRepository.findAll(PageRequest.of(page,15, Sort.by("createdAt").descending()));
+        Page <BookMark> bookMarkPage = bookMarkRepository.findAll(PageRequest.of(page-1,15, Sort.by("createdAt").descending()));
 
         return bookMarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
     }
@@ -165,7 +166,7 @@ public class BookMarkServiceImpl implements BookMarkService{
     @Transactional
     public Page<BookMarkInquiryResponse> inquiryBookMarkByLikeCount(Integer page){
         LocalDateTime weekAgo = LocalDateTime.now().minusWeeks(1);
-        Page<BookMark> bookMarkPage = bookMarkRepository.findAllByOrderByLikeCount(PageRequest.of(page,15), weekAgo);
+        Page<BookMark> bookMarkPage = bookMarkRepository.findAllByOrderByLikeCount(PageRequest.of(page-1,15), weekAgo);
 
         return bookMarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
     }
@@ -174,7 +175,7 @@ public class BookMarkServiceImpl implements BookMarkService{
     @Transactional
     public Page<BookMarkInquiryResponse> inquiryBookMarkByMemberLike(Long memberId, Integer page){
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
-        Page <BookMark> bookmarkPage = bookMarkLikeRepository.findAllByMember(member, PageRequest.of(page,12))
+        Page <BookMark> bookmarkPage = bookMarkLikeRepository.findAllByMember(member, PageRequest.of(page-1,12))
                 .map(BookMarkLike::getBookmark);
         return bookmarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
     }
@@ -183,7 +184,7 @@ public class BookMarkServiceImpl implements BookMarkService{
     @Transactional
     public Page<BookMarkInquiryResponse> inquiryBookMarkByMember(Long memberId, Integer page){
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));;
-        Page <BookMark> bookmarkPage = bookMarkRepository.findAllByMember(member, PageRequest.of(page,12));
+        Page <BookMark> bookmarkPage = bookMarkRepository.findAllByMember(member, PageRequest.of(page-1,12));
 
         return bookmarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
     }
@@ -191,7 +192,7 @@ public class BookMarkServiceImpl implements BookMarkService{
     @Override //모든 북마크 검색
     @Transactional
     public Page<BookMarkInquiryResponse> inquiryBookMarkBySearch(String keyWord, Integer page){
-        Page <BookMark> bookMarkPage = bookMarkRepository.findAllBySearch(keyWord, PageRequest.of(page, 15));
+        Page <BookMark> bookMarkPage = bookMarkRepository.findAllBySearch(keyWord, PageRequest.of(page-1, 15));
 
         return bookMarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
     }
@@ -199,14 +200,13 @@ public class BookMarkServiceImpl implements BookMarkService{
     @Override //추천 북마크 검색
     @Transactional
     public Page<BookMarkInquiryResponse> inquiryBookMarkByLikeCountAndSearch(String keyword, Integer page){
-        Page <BookMark> bookMarkPage = bookMarkRepository.findAllByLikeCountAndSearch(keyword, PageRequest.of(page, 15));
+        Page <BookMark> bookMarkPage = bookMarkRepository.findAllByLikeCountAndSearch(keyword, PageRequest.of(page-1, 15));
 
         return bookMarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
     }
 
-
-
-    /*@Override//북마크 수정
+    @Override//북마크 수정
+    @Transactional
     public BookMarkUpdateResponse updateBookMark(Long bookMarkId, BookMarkRequest.BookMarkUpdateRequest request){
         BookMark bookMark = bookMarkRepository.findById(bookMarkId).orElseThrow(() -> null);
 
@@ -217,7 +217,7 @@ public class BookMarkServiceImpl implements BookMarkService{
         List <BookMarkHashTag> bookMarkHashTagList = BookMarkHashTagConverter.toBookMarkHashTagList(hashTagList);
 
         bookMark.update(request.getTitle(), request.getUrl(), request.getContent(), bookMarkHashTagList);
-        return bookMarkConverter.toBookMarkUpdateResponseDTO(bookMarkRepository.save(bookMark));
-    }*/
+        return bookMarkConverter.toBookMarkUpdateReponse(bookMarkRepository.save(bookMark));
+    }
 
 }
