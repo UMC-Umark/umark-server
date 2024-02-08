@@ -48,15 +48,15 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public ApiResponse<MemberDto.MemberResponseDto> signUpMember(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) {
+    public ApiResponse<MemberDto.MemberSignUpResponseDto> signUpMember(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) {
         String email = memberSignUpDto.getEmail();
         String password = memberSignUpDto.getPassword();
         String univ = memberSignUpDto.getUnivName();
         List<Integer> term = memberSignUpDto.getTerms();
         try {
-            return ApiResponse.onSuccess(MemberConverter.memberResponseDto(memberService.signUpMember(email, password, univ, term)));
+            return ApiResponse.onSuccess(MemberConverter.memberSignUpResponseDto(memberService.signUpMember(email, password, univ, term)));
         } catch (GlobalException e) {
-            return ApiResponse.onFailure(e.getErrorCode(), MemberConverter.memberResponseDto(memberService.signUpMember(email, password, univ, term)));
+            return ApiResponse.onFailure(e.getErrorCode(), MemberConverter.memberSignUpResponseDto(memberService.signUpMember(email, password, univ, term)));
         }
     }
 
