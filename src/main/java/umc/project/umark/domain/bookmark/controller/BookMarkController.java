@@ -10,6 +10,7 @@ import umc.project.umark.domain.bookmark.dto.Response.BookMarkInquiryResponse;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkResponse;
 import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkUpdateResponse;
+import umc.project.umark.domain.bookmark.dto.Response.MyPageResponse;
 import umc.project.umark.domain.bookmark.entity.BookMark;
 import umc.project.umark.domain.bookmark.repository.BookMarkRepository;
 import umc.project.umark.domain.bookmark.service.BookMarkService;
@@ -83,7 +84,7 @@ public class BookMarkController {
         }
     }
     @GetMapping("/{memberId}/mywrite") // 내가 쓴 북마크 조회
-    public ApiResponse<Page<BookMarkInquiryResponse>> inquiryBookMarkByMember(
+    public ApiResponse<MyPageResponse.MyPageWrittenBookMarkResponse> inquiryBookMarkByMember(
             @RequestParam(name = "page") Integer page,
             @PathVariable Long memberId
     ) {
@@ -95,7 +96,7 @@ public class BookMarkController {
     }
 
     @GetMapping("/{memberId}/mylike") // 내가 좋아요한 북마크 조회
-    public ApiResponse<Page<BookMarkInquiryResponse>> inquiryBookMarkByMemberLike(
+    public ApiResponse<MyPageResponse.MyPageLikedBookMarkResponse> inquiryBookMarkByMemberLike(
             @RequestParam(name = "page") Integer page,
             @PathVariable Long memberId
     ) {
