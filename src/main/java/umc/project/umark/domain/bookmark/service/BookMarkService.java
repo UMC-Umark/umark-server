@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkInquiryResponse;
+import umc.project.umark.domain.bookmark.dto.Response.BookMarkResponse;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkUpdateResponse;
 import umc.project.umark.domain.bookmark.dto.Response.MyPageResponse;
 import umc.project.umark.domain.bookmark.entity.BookMark;
@@ -24,6 +25,6 @@ public interface BookMarkService {
     MyPageResponse.MyPageWrittenBookMarkResponse inquiryBookMarkByMember(Long memberId, Integer page); // 내가 쓴 북마크 조회
     Page<BookMarkInquiryResponse> inquiryBookMarkBySearch(String keyWord, Integer page); // 모든 북마크 검색
     Page<BookMarkInquiryResponse> inquiryBookMarkByLikeCountAndSearch(String keyword, Integer page); //추천 북마크 검색
-
+    BookMarkInquiryResponse inquiryBookMarkById(Long bookMarkId);
     BookMarkUpdateResponse updateBookMark(Long bookMarkId, BookMarkRequest.BookMarkUpdateRequest request); //북마크 수정
 }

@@ -209,10 +209,18 @@ public class BookMarkServiceImpl implements BookMarkService{
         return bookMarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
     }
 
+    @Override
+    @Transactional
+    public  BookMarkInquiryResponse inquiryBookMarkById(Long bookMarkId){
+        BookMark bookMark = bookMarkRepository.findById(bookMarkId).orElseThrow(() ->  new GlobalException(GlobalErrorCode.BOOKMARK_NOT_FOUND));
+
+        return bookMarkConverter.toBookMarkInquiryResponse(bookMark);
+    }
+
     @Override//북마크 수정
     @Transactional
     public BookMarkUpdateResponse updateBookMark(Long bookMarkId, BookMarkRequest.BookMarkUpdateRequest request){
-        BookMark bookMark = bookMarkRepository.findById(bookMarkId).orElseThrow(() -> null);
+        BookMark bookMark = bookMarkRepository.findById(bookMarkId).orElseThrow(() -> new GlobalException(GlobalErrorCode.BOOKMARK_NOT_FOUND));
 
         List<HashTag> hashTagList = request.getHashTags().stream()
                 .map(hashTag -> hashTagRepository.findByContent(hashTag.getContent())
