@@ -11,6 +11,7 @@ import umc.project.umark.domain.bookmark.converter.BookMarkConverter;
 import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkInquiryResponse;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkUpdateResponse;
+import umc.project.umark.domain.bookmark.dto.Response.MyPageResponse;
 import umc.project.umark.domain.bookmark.entity.BookMark;
 import umc.project.umark.domain.bookmark.repository.BookMarkRepository;
 import umc.project.umark.domain.hashtag.entity.HashTag;
@@ -82,7 +83,7 @@ public class BookMarkServiceImpl implements BookMarkService{
 
         //게시물이 존재하는지 검증
         BookMark bookmark = bookMarkRepository.findById(bookMarkId)
-                .orElseThrow(() -> new GlobalException(GlobalErrorCode.BOOKMARK_NOT_FOUND));
+                    .orElseThrow(() -> new GlobalException(GlobalErrorCode.BOOKMARK_NOT_FOUND));
 
         //이미 멤버가 해당 북마크에 좋아요를 눌렀는 지 확인
         Optional<BookMarkLike> existingLike = bookMarkLikeRepository.findByMemberAndBookmark(member, bookmark);
@@ -173,20 +174,23 @@ public class BookMarkServiceImpl implements BookMarkService{
 
     @Override //내가 좋아요 누른 북마크 조회
     @Transactional
-    public Page<BookMarkInquiryResponse> inquiryBookMarkByMemberLike(Long memberId, Integer page){
+    public MyPageResponse.MyPageLikedBookMarkResponse inquiryBookMarkByMemberLike(Long memberId, Integer page){
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
-        Page <BookMark> bookmarkPage = bookMarkLikeRepository.findAllByMember(member, PageRequest.of(page-1,12))
-                .map(BookMarkLike::getBookmark);
-        return bookmarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
+        Page <BookMarkInquiryResponse> bookMarkPage = bookMarkLikeRepository.findAllByMember(member, PageRequest.of(page-1,12))
+                .map(BookMarkLike::getBookmark)
+                .map(bookMarkConverter::toBookMarkInquiryResponse);
+
+        return bookMarkConverter.toMyPageLikedBookMarkResponse(bookMarkPage, member);
     }
 
     @Override //내가 쓴 북마크 조회
     @Transactional
-    public Page<BookMarkInquiryResponse> inquiryBookMarkByMember(Long memberId, Integer page){
+    public MyPageResponse.MyPageWrittenBookMarkResponse inquiryBookMarkByMember(Long memberId, Integer page){
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));;
-        Page <BookMark> bookmarkPage = bookMarkRepository.findAllByMember(member, PageRequest.of(page-1,12));
+        Page <BookMarkInquiryResponse> bookMarkPage = bookMarkRepository.findAllByMember(member, PageRequest.of(page-1,12))
+                .map(bookMarkConverter::toBookMarkInquiryResponse);
 
-        return bookmarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
+        return bookMarkConverter.toMyPageWrittenBookMarkResponse(bookMarkPage, member);
     }
 
     @Override //모든 북마크 검색
@@ -217,7 +221,7 @@ public class BookMarkServiceImpl implements BookMarkService{
         List <BookMarkHashTag> bookMarkHashTagList = BookMarkHashTagConverter.toBookMarkHashTagList(hashTagList);
 
         bookMark.update(request.getTitle(), request.getUrl(), request.getContent(), bookMarkHashTagList);
-        return bookMarkConverter.toBookMarkUpdateReponse(bookMarkRepository.save(bookMark));
+        return bookMarkConverter.toBookMarkUpdateResponse(bookMarkRepository.save(bookMark));
     }
 
 }

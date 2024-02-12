@@ -16,4 +16,5 @@ public class BookMarkInquiryResponse {
     private String content;
     private String url;
     private Integer likeCount;
+    private boolean isReported;
 }

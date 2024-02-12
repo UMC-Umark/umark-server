@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkInquiryResponse;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkUpdateResponse;
+import umc.project.umark.domain.bookmark.dto.Response.MyPageResponse;
 import umc.project.umark.domain.bookmark.entity.BookMark;
 import umc.project.umark.domain.hashtag.service.HashTagService;
 import umc.project.umark.domain.mapping.BookMarkLike;
@@ -19,8 +20,8 @@ public interface BookMarkService {
 
     Page<BookMarkInquiryResponse> inquiryBookMarkPage(Integer page);//모든 북마크 조회
     Page<BookMarkInquiryResponse> inquiryBookMarkByLikeCount(Integer page); // 추천 북마크 조회
-    Page<BookMarkInquiryResponse> inquiryBookMarkByMemberLike(Long memberId, Integer page); // 좋아요 한 북마크 조회
-    Page<BookMarkInquiryResponse> inquiryBookMarkByMember(Long memberId, Integer page); // 내가 쓴 북마크 조회
+    MyPageResponse.MyPageLikedBookMarkResponse inquiryBookMarkByMemberLike(Long memberId, Integer page); // 좋아요 한 북마크 조회
+    MyPageResponse.MyPageWrittenBookMarkResponse inquiryBookMarkByMember(Long memberId, Integer page); // 내가 쓴 북마크 조회
     Page<BookMarkInquiryResponse> inquiryBookMarkBySearch(String keyWord, Integer page); // 모든 북마크 검색
     Page<BookMarkInquiryResponse> inquiryBookMarkByLikeCountAndSearch(String keyword, Integer page); //추천 북마크 검색
 
