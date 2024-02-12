@@ -22,6 +22,26 @@ public class MemberDto {
 
     @Builder
     @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginRequestDto{
+        private String email;
+        private String password;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginResponseDto{
+        private String userId;
+        private String accessToken;
+        private String refreshToken;
+        private String role;
+    }
+
+    @Builder
+    @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor

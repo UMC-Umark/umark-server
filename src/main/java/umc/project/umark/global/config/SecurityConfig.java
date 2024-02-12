@@ -40,8 +40,9 @@ public class SecurityConfig {
     private final String[] allowedUrls = {
             "/",
             "/swagger-ui/**",
-            "/members/login",
-            "/api-docs/**"
+            "/member/login",
+            "/api-docs/**",
+            "/member/signup"
     };
 
     @Component
@@ -110,7 +111,7 @@ public class SecurityConfig {
                         auth ->
                                 auth.requestMatchers(allowedUrls)
                                         .permitAll()
-                                        .requestMatchers("/api/admin/**")
+                                        .requestMatchers("/admin/**")
                                         .hasAuthority("ROLE_ADMIN")
                                         .requestMatchers(
                                                 "/api/v1/members/**",

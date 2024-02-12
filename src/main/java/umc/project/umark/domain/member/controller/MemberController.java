@@ -60,6 +60,11 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/login")
+    public ApiResponse<MemberDto.LoginResponseDto> login(@RequestBody MemberDto.LoginRequestDto request) {
+            return ApiResponse.onSuccess(memberService.login(request));
+    }
+
     @GetMapping("/{memberId}")
     public ApiResponse<MemberDto.MemberResponseDto> getMember(@PathVariable Long memberId) {
         try {
