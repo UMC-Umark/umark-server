@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
-import umc.project.umark.domain.bookmark.entity.BookMark;
+
 
 
 public class MyPageResponse {

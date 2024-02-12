@@ -129,6 +129,17 @@ public class BookMarkController {
             return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkByLikeCountAndSearch(keyWord, page));
         }
     }
+
+    @GetMapping("/update/{bookmarkId}")//수정할 게시물 정보 조회
+    public ApiResponse<BookMarkInquiryResponse> inquiryBookMarkById(@PathVariable Long bookmarkId){
+        try {
+            return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkById(bookmarkId));
+        } catch (GlobalException e) {
+            return ApiResponse.onFailure(e.getErrorCode(), null);
+        }
+    }
+
+
     @PutMapping("/{bookmarkId}")//북마크 수정
     public ApiResponse<BookMarkUpdateResponse> updateBookMark(@PathVariable Long bookmarkId, @RequestBody BookMarkRequest.BookMarkUpdateRequest request){
         return ApiResponse.onSuccess(bookMarkService.updateBookMark(bookmarkId, request));
