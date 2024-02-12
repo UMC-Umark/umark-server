@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import umc.project.umark.domain.member.converter.MemberConverter;
 import umc.project.umark.domain.member.dto.MemberDto;
 import umc.project.umark.domain.member.service.MemberService;
-import umc.project.umark.global.exception.ApiResponse;
+import umc.project.umark.global.common.ApiResponse;
 import umc.project.umark.global.exception.GlobalException;
 
 

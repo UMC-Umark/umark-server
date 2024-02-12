@@ -21,7 +21,8 @@ public enum GlobalErrorCode {
     NOT_VALID_KEYWORD(BAD_REQUEST, "유효하지 않은 검색어 입니다."),
 
     // 401 Unauthorized - 권한 없음
-    INVALID_TOKEN(UNAUTHORIZED, "토큰이 유효하지 않습니다."),
+    TOKEN_EXPIRED(UNAUTHORIZED, "토큰의 유효기간이 지났습니다."),
+    INVALID_TOKEN(UNAUTHORIZED, "유효하지 않은 토큰입니다."),
     LOGIN_REQUIRED(UNAUTHORIZED, "로그인이 필요한 서비스입니다."),
     INVALID_CODE(UNAUTHORIZED, "유효하지 않은 코드입니다."),
     AUTHENTICATION_REQUIRED(UNAUTHORIZED, "인증 정보가 유효하지 않습니다."),

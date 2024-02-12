@@ -30,6 +30,9 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus;
+
+    @Enumerated(EnumType.STRING)
+    private MemberRole role;
     @Column
     @Builder.Default
     private Integer writtenCount = 0;

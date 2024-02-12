@@ -5,7 +5,6 @@ import com.univcert.api.UnivCert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.project.umark.domain.member.converter.MemberConverter;
@@ -17,7 +16,6 @@ import umc.project.umark.domain.term.entity.Term;
 import umc.project.umark.domain.term.repository.TermRepository;
 import umc.project.umark.global.exception.GlobalErrorCode;
 import umc.project.umark.global.exception.GlobalException;
-import org.springframework.mail.javamail.JavaMailSender;
 
 import java.io.IOException;
 import java.util.*;
@@ -31,11 +29,7 @@ public class MemberServiceImpl implements MemberService {
     @Value("${univcert.apikey}")
     private String apiKey;
 
-    //@Value("${spring.mail.username}")
-    //private String sender;
-
     private final MemberRepository memberRepository;
-    // private final JavaMailSender javaMailSender;
 
     private final TermRepository termRepository;
 
