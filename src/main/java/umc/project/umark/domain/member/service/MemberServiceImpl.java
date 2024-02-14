@@ -5,11 +5,15 @@ import com.univcert.api.UnivCert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.project.umark.domain.member.converter.MemberConverter;
 import umc.project.umark.domain.member.dto.MemberDto;
+import umc.project.umark.domain.member.entity.MemberRole;
 import umc.project.umark.domain.member.repository.MemberRepository;
 import umc.project.umark.domain.member.entity.MemberStatus;
 import umc.project.umark.domain.member.entity.Member;
@@ -17,7 +21,8 @@ import umc.project.umark.domain.term.entity.Term;
 import umc.project.umark.domain.term.repository.TermRepository;
 import umc.project.umark.global.exception.GlobalErrorCode;
 import umc.project.umark.global.exception.GlobalException;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.GrantedAuthority;
+import umc.project.umark.global.jwt.JwtTokenService;
 
 import java.io.IOException;
 import java.util.*;
@@ -30,14 +35,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Value("${univcert.apikey}")
     private String apiKey;
-
-    //@Value("${spring.mail.username}")
-    //private String sender;
-
     private final MemberRepository memberRepository;
-    // private final JavaMailSender javaMailSender;
-
     private final TermRepository termRepository;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final JwtTokenService jwtTokenService;
+    private final MemberConverter memberConverter;
 
     @Override
     public Boolean sendEmail(String email, String univName) throws IOException {
@@ -91,6 +93,7 @@ public class MemberServiceImpl implements MemberService {
                 .univ(univ)
                 .password(password)
                 .memberStatus(MemberStatus.ACTIVE)
+                .role(MemberRole.USER)
                 .build();
 
         Set<Term> agreedTerms = terms.stream()
@@ -105,6 +108,44 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         return member;
+    }
+
+    @Override
+    @Transactional
+    public MemberDto.LoginResponseDto login(MemberDto.LoginRequestDto request) {
+        String email = request.getEmail();
+        String password = request.getPassword();
+
+        memberRepository.findByEmail(email); // UserId Notfound 예외처리용
+
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(email, password);
+        System.out.println("authenticationToken = " + authenticationToken);
+        System.out.println("object = " + authenticationManagerBuilder.getObject());
+////
+//        try {
+//            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+//            System.out.println("authentication = " + authentication);
+//        } catch (AuthenticationException e) {
+//            System.out.println("Authentication failed: " + e.getMessage());
+//            // 여기서 적절한 예외 처리 또는 로직을 수행합니다.
+//        }
+
+        Authentication authentication =
+                authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        String role =
+                authentication.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.joining(",")); // role_admin
+        String authenticatedUserId = authentication.getName(); //  UserId
+
+        Member member = memberRepository.findById(Long.valueOf(authenticatedUserId))
+                .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_INFO_NOT_FOUND)); // id
+        String accessToken = jwtTokenService.generateAccessToken(member.getId(), role);
+        String refreshToken = jwtTokenService.generateRefreshToken(member.getId());
+
+        return memberConverter.toLogin(member, accessToken, refreshToken);
     }
 
 
@@ -135,47 +176,6 @@ public class MemberServiceImpl implements MemberService {
 
         return memberResponseDtos;
     }
-
-    /*
-    @Override
-    public String makeRandomCode() {
-
-        //8자리 코드 생성
-
-        String codeSet = "ABCDEFGHIJKMNLOPQRSTUVWXYZ0123456789";
-        Random random = new Random();
-        StringBuilder randomCode = new StringBuilder();
-
-        for (int i=0; i<8; i++) {
-            int index = random.nextInt(codeSet.length());
-            randomCode.append(codeSet.charAt(index));
-        }
-
-        return String.valueOf(randomCode);
-    }
-
-    @Override
-    public String sendFindPasswordMail(String email) {
-
-        String code = makeRandomCode();
-
-        SimpleMailMessage mail = new SimpleMailMessage();
-
-        mail.setTo(email);
-        mail.setFrom(sender);
-        mail.setSubject("비밀번호 찾기 코드 메일");
-        mail.setText(code);
-
-        try {
-            javaMailSender.send(mail);
-        } catch (Exception e) {
-            throw e;
-        }
-
-        return code;
-    }
-
-     */
 
     @Override
     @Transactional

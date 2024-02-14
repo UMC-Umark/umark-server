@@ -1,5 +1,6 @@
 package umc.project.umark.domain.member.converter;
 
+import org.springframework.stereotype.Component;
 import umc.project.umark.domain.member.dto.MemberDto;
 import umc.project.umark.domain.member.entity.Member;
 import umc.project.umark.domain.term.entity.Term;
@@ -8,6 +9,7 @@ import umc.project.umark.domain.member.entity.MemberStatus;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class MemberConverter {
 
     public static MemberDto.MemberSignUpDto memberSignUpDto(String email, String univName, String password){
@@ -39,6 +41,15 @@ public class MemberConverter {
                 .password(member.getPassword())
                 .memberStatus(String.valueOf(member.getMemberStatus()))
                 .agreedTerms(agreedTermsIds)
+                .build();
+    }
+
+    public static MemberDto.LoginResponseDto toLogin(Member member, String accessToken, String refreshToken){
+        return MemberDto.LoginResponseDto.builder()
+                .userId(String.valueOf(member.getId()))
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .role(String.valueOf(member.getRole()))
                 .build();
     }
 }

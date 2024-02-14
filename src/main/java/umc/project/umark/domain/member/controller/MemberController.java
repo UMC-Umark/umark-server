@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import umc.project.umark.domain.member.converter.MemberConverter;
 import umc.project.umark.domain.member.dto.MemberDto;
 import umc.project.umark.domain.member.service.MemberService;
-import umc.project.umark.global.exception.ApiResponse;
+import umc.project.umark.global.common.ApiResponse;
 import umc.project.umark.global.exception.GlobalException;
 
 
@@ -58,6 +58,11 @@ public class MemberController {
         } catch (GlobalException e) {
             return ApiResponse.onFailure(e.getErrorCode(), MemberConverter.memberSignUpResponseDto(memberService.signUpMember(email, password, univ, term)));
         }
+    }
+
+    @PostMapping("/login")
+    public ApiResponse<MemberDto.LoginResponseDto> login(@RequestBody MemberDto.LoginRequestDto request) {
+            return ApiResponse.onSuccess(memberService.login(request));
     }
 
     @GetMapping("/{memberId}")
