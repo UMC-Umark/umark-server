@@ -22,5 +22,5 @@ public interface MemberService {
     public Member changePasswordByEmail(String email, String newPassword);
     public Member changePassword(Long memberId, String newPassword);
 
-    public void withdraw(Long memberId);
+    public void withdraw();
 }

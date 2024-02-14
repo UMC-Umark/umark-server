@@ -26,8 +26,6 @@ public class BookMarkRequest {
 
         private List<HashTag> hashTags;
 
-        private Long memberId;
-
     }
 
     @Getter

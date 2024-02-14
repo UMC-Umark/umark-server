@@ -34,7 +34,7 @@ public class MemberDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class LoginResponseDto{
-        private String userId;
+        private Long memberId;
         private String accessToken;
         private String refreshToken;
         private String role;
