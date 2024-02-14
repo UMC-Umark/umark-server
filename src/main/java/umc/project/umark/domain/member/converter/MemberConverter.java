@@ -46,7 +46,7 @@ public class MemberConverter {
 
     public static MemberDto.LoginResponseDto toLogin(Member member, String accessToken, String refreshToken){
         return MemberDto.LoginResponseDto.builder()
-                .userId(String.valueOf(member.getId()))
+                .memberId(member.getId())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .role(String.valueOf(member.getRole()))

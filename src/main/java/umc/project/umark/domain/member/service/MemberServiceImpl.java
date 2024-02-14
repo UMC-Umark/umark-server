@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import umc.project.umark.domain.member.auth.utils.MemberUtils;
 import umc.project.umark.domain.member.converter.MemberConverter;
 import umc.project.umark.domain.member.dto.MemberDto;
 import umc.project.umark.domain.member.entity.MemberRole;
@@ -40,6 +41,7 @@ public class MemberServiceImpl implements MemberService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenService jwtTokenService;
     private final MemberConverter memberConverter;
+    private final MemberUtils memberUtils;
 
     @Override
     public Boolean sendEmail(String email, String univName) throws IOException {
@@ -210,7 +212,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void withdraw(Long memberId) {
+    public void withdraw() {
+        Long memberId = memberUtils.getCurrentMemberId();
         Optional <Member> findMember = memberRepository.findById(memberId);
 
         if (findMember.isPresent()) {

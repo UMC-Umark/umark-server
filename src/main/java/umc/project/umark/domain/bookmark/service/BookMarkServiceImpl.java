@@ -21,6 +21,7 @@ import umc.project.umark.domain.mapping.BookMarkHashTag;
 import umc.project.umark.domain.mapping.BookMarkLike;
 import umc.project.umark.domain.mapping.converter.BookMarkHashTagConverter;
 import umc.project.umark.domain.mapping.repository.BookMarkLikeRepository;
+import umc.project.umark.domain.member.auth.utils.MemberUtils;
 import umc.project.umark.domain.member.entity.Member;
 import umc.project.umark.domain.report.Report;
 import umc.project.umark.domain.report.converter.ReportConverter;
@@ -50,10 +51,11 @@ public class BookMarkServiceImpl implements BookMarkService{
     private final BookMarkLikeRepository bookMarkLikeRepository;
     private final ReportRepository reportRepository;
     private final BookMarkConverter bookMarkConverter;
+    private final MemberUtils memberUtils;
     @Override
     @Transactional
     public BookMark createBookMark(BookMarkRequest.BookMarkCreateRequestDTO request) {  //북마크 생성
-        Long memberId = request.getMemberId();
+        Long memberId = memberUtils.getCurrentMemberId();
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
@@ -111,19 +113,18 @@ public class BookMarkServiceImpl implements BookMarkService{
 
    @Override
    @Transactional
-   public Long deleteBookMark(Long memberId, Long bookMarkId){
-       //멤버가 존재하는지 검증
+   public Long deleteBookMark(Long bookMarkId){
+       //내가 쓴 북마크인지 검증
+       Long memberId = memberUtils.getCurrentMemberId();
        Member member = memberRepository.findById(memberId)
-               .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
-
+                .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
+       boolean isWriter = bookMarkRepository.existsByIdAndMember_Id(bookMarkId, memberId);
+       if(!isWriter){
+           throw new GlobalException(GlobalErrorCode.MEMBER_NOT_AUTHORIZED);
+       }
        //게시물이 존재하는지 검증
        BookMark bookmark = bookMarkRepository.findById(bookMarkId)
                .orElseThrow(() -> new GlobalException(GlobalErrorCode.BOOKMARK_NOT_FOUND));
-
-       if (!bookmark.getMember().equals(member)) {
-           //만약 게시물의 작성자와 삭제하고자 하는 멤버의 id가 다르다면
-           throw new GlobalException(GlobalErrorCode.MEMBER_NOT_AUTHORIZED);
-       }
 
        Long deletedBookMarkId = bookmark.getId();         //삭제할 북마크의 아이디 저장
        bookMarkRepository.deleteById(bookmark.getId());   //북마크 삭제 cascade.all타입이므로 관련 mapping table은 자동 삭제
@@ -220,6 +221,11 @@ public class BookMarkServiceImpl implements BookMarkService{
     @Override//북마크 수정
     @Transactional
     public BookMarkUpdateResponse updateBookMark(Long bookMarkId, BookMarkRequest.BookMarkUpdateRequest request){
+        Long memberId = memberUtils.getCurrentMemberId();
+        boolean isWriter = bookMarkRepository.existsByIdAndMember_Id(bookMarkId, memberId);
+        if(!isWriter){
+            throw new GlobalException(GlobalErrorCode.MEMBER_NOT_AUTHORIZED);
+        }
         BookMark bookMark = bookMarkRepository.findById(bookMarkId).orElseThrow(() -> new GlobalException(GlobalErrorCode.BOOKMARK_NOT_FOUND));
 
         List<HashTag> hashTagList = request.getHashTags().stream()

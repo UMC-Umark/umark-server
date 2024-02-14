@@ -16,7 +16,7 @@ import umc.project.umark.domain.report.dto.Request.ReportRequest;
 public interface BookMarkService {
     BookMark createBookMark(BookMarkRequest.BookMarkCreateRequestDTO request);
     BookMark likeBookMark(Long memberId, Long bookMarkId);
-    Long deleteBookMark(Long memberId, Long bookMarkId);
+    Long deleteBookMark(Long bookMarkId);
     BookMark createReport(ReportRequest.ReportRequestDTO request);
 
     Page<BookMarkInquiryResponse> inquiryBookMarkPage(Integer page);//모든 북마크 조회

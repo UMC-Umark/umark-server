@@ -38,11 +38,17 @@ public class SecurityConfig {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     private final String[] allowedUrls = {
-            "/",
+            "/api/v2/**",
+            "/v3/api-docs/**",
+            "/health",
             "/swagger-ui/**",
-            "/member/login",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/v2/api-docs/**",
+            "/webjars/**",
+            "/member/**",
             "/api-docs/**",
-            "/member/signup"
+            "/bookmarks/**"
     };
 
     @Component
@@ -114,9 +120,10 @@ public class SecurityConfig {
                                         .requestMatchers("/admin/**")
                                         .hasAuthority("ROLE_ADMIN")
                                         .requestMatchers(
-                                                "/api/v1/members/**",
-                                                "/api/v1/likes/**",
-                                                "/api/v1/favorites/**")
+                                                "/bookmarks/add",
+                                                "/bookmarks/update/**",
+                                                "/bookmarks/delete/**",
+                                                "/member/withdraw")
                                         .authenticated()
                                         .anyRequest()
                                         .authenticated())

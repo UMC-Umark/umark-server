@@ -48,12 +48,11 @@ public class BookMarkController {
     }
 
 
-    @DeleteMapping("/delete/{bookMarkId}/{memberId}")
+    @DeleteMapping("/delete/{bookMarkId}")
     public ApiResponse<BookMarkResponse.BookMarkDeleteResponseDTO> deleteBookMark(
-            @PathVariable Long bookMarkId,
-            @PathVariable Long memberId) {
+            @PathVariable Long bookMarkId) {
 
-        Long deletedBookMarkId = bookMarkService.deleteBookMark(memberId, bookMarkId);
+        Long deletedBookMarkId = bookMarkService.deleteBookMark(bookMarkId);
         return ApiResponse.onSuccess(BookMarkConverter.toBookMarkDeleteResponseDTO(deletedBookMarkId));
     }
 

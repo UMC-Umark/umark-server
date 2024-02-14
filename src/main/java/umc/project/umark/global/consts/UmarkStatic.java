@@ -10,7 +10,7 @@ public class UmarkStatic {
     public static final String NULL_STRING = "null";
     public static final String TOKEN_ROLE = "role";
     public static final String TOKEN_TYPE = "auth";
-    public static final String TOKEN_ISSUER = "DailyPhrase";
+    public static final String TOKEN_ISSUER = "Umark";
     public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
     public static final String REFRESH_TOKEN = "REFRESH_TOKEN";
 

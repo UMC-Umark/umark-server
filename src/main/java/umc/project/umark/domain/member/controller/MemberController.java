@@ -112,12 +112,11 @@ public class MemberController {
         }
     }
 
-    @PatchMapping("/{memberId}")
+    @PatchMapping("/withdraw")
     public ApiResponse witdraw(
-            @PathVariable Long memberId
     ) {
         try {
-            memberService.withdraw(memberId);
+            memberService.withdraw();
             return ApiResponse.onSuccess(null);
         } catch (GlobalException e) {
             return ApiResponse.onFailure(e.getErrorCode(), null);
