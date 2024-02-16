@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import umc.project.umark.domain.member.converter.MemberConverter;
 import umc.project.umark.domain.member.dto.MemberDto;
 import umc.project.umark.domain.member.service.MemberService;
-import umc.project.umark.global.exception.ApiResponse;
+import umc.project.umark.global.common.ApiResponse;
 import umc.project.umark.global.exception.GlobalException;
 
 
@@ -48,16 +48,21 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public ApiResponse<MemberDto.MemberResponseDto> signUpMember(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) {
+    public ApiResponse<MemberDto.MemberSignUpResponseDto> signUpMember(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) {
         String email = memberSignUpDto.getEmail();
         String password = memberSignUpDto.getPassword();
         String univ = memberSignUpDto.getUnivName();
         List<Integer> term = memberSignUpDto.getTerms();
         try {
-            return ApiResponse.onSuccess(MemberConverter.memberResponseDto(memberService.signUpMember(email, password, univ, term)));
+            return ApiResponse.onSuccess(MemberConverter.memberSignUpResponseDto(memberService.signUpMember(email, password, univ, term)));
         } catch (GlobalException e) {
-            return ApiResponse.onFailure(e.getErrorCode(), MemberConverter.memberResponseDto(memberService.signUpMember(email, password, univ, term)));
+            return ApiResponse.onFailure(e.getErrorCode(), MemberConverter.memberSignUpResponseDto(memberService.signUpMember(email, password, univ, term)));
         }
+    }
+
+    @PostMapping("/login")
+    public ApiResponse<MemberDto.LoginResponseDto> login(@RequestBody MemberDto.LoginRequestDto request) {
+            return ApiResponse.onSuccess(memberService.login(request));
     }
 
     @GetMapping("/{memberId}")
@@ -107,12 +112,11 @@ public class MemberController {
         }
     }
 
-    @PatchMapping("/{memberId}")
+    @PatchMapping("/withdraw")
     public ApiResponse witdraw(
-            @PathVariable Long memberId
     ) {
         try {
-            memberService.withdraw(memberId);
+            memberService.withdraw();
             return ApiResponse.onSuccess(null);
         } catch (GlobalException e) {
             return ApiResponse.onFailure(e.getErrorCode(), null);

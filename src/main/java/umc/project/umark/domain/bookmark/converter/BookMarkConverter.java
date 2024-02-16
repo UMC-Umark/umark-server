@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkInquiryResponse;
 import umc.project.umark.domain.bookmark.dto.Response.BookMarkResponse;
 import umc.project.umark.domain.bookmark.dto.Request.BookMarkRequest;
+import umc.project.umark.domain.bookmark.dto.Response.BookMarkUpdateResponse;
+import umc.project.umark.domain.bookmark.dto.Response.MyPageResponse;
 import umc.project.umark.domain.bookmark.entity.BookMark;
 import umc.project.umark.domain.mapping.BookMarkLike;
 import umc.project.umark.domain.member.entity.Member;
@@ -67,6 +70,33 @@ public class BookMarkConverter {
                 .hashTagContent(hashTagContent)
                 .content(bookmark.getContent())
                 .url(bookmark.getUrl())
+                .likeCount(bookmark.getLikeCount())
+                .isReported(bookmark.isReported())
+                .build();
+    }
+
+    public BookMarkUpdateResponse toBookMarkUpdateResponse(BookMark bookMark){
+
+        return BookMarkUpdateResponse.builder()
+                .BookMarkId(bookMark.getId())
+                .modifiedAt(bookMark.getModifiedAt())
+                .build();
+    }
+
+        public MyPageResponse.MyPageLikedBookMarkResponse toMyPageLikedBookMarkResponse(Page<BookMarkInquiryResponse> bookMarkPage, Member member){
+            return MyPageResponse.MyPageLikedBookMarkResponse.builder()
+                    .myLikeBookMarkPage(bookMarkPage)
+                    .LikedCount(member.getLikedCount())
+                    .writtenCount(member.getWrittenCount())
+                    .build();
+        }
+
+    public MyPageResponse.MyPageWrittenBookMarkResponse toMyPageWrittenBookMarkResponse(Page<BookMarkInquiryResponse> bookMarkPage, Member member){
+
+        return MyPageResponse.MyPageWrittenBookMarkResponse.builder()
+                .myWrittenBookMarkPage(bookMarkPage)
+                .LikedCount(member.getLikedCount())
+                .writtenCount(member.getWrittenCount())
                 .build();
     }
 
