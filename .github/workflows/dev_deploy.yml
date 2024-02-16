@@ -1,4 +1,4 @@
-ame: Umark Dev CI/CD # (1).workflow 이름
+name: Umark Dev CI/CD # (1).workflow 이름
 
 on:
   pull_request:
