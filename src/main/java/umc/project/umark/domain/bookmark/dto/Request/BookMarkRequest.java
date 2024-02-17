@@ -18,7 +18,6 @@ public class BookMarkRequest {
         @Size(max = 20)
         private String title;
 
-        @Size(max = 20)
         private String url;
 
         @Size(max = 250)
