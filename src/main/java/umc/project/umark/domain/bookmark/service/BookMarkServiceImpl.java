@@ -77,8 +77,8 @@ public class BookMarkServiceImpl implements BookMarkService{
 
     @Override
     @Transactional
-    public BookMark likeBookMark(Long memberId, Long bookMarkId) {  //북마크에 좋아요 누르기
-
+    public BookMark likeBookMark(Long bookMarkId) {  //북마크에 좋아요 누르기
+        Long memberId = memberUtils.getCurrentMemberId();
         //멤버가 존재하는지 검증
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
@@ -136,7 +136,7 @@ public class BookMarkServiceImpl implements BookMarkService{
     @Override
     @Transactional
     public BookMark createReport(ReportRequest.ReportRequestDTO request){    //북마크에 신고 누르기
-        Long memberId = request.getMemberId();
+        Long memberId = memberUtils.getCurrentMemberId();
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
@@ -175,7 +175,8 @@ public class BookMarkServiceImpl implements BookMarkService{
 
     @Override //내가 좋아요 누른 북마크 조회
     @Transactional
-    public MyPageResponse.MyPageLikedBookMarkResponse inquiryBookMarkByMemberLike(Long memberId, Integer page){
+    public MyPageResponse.MyPageLikedBookMarkResponse inquiryBookMarkByMemberLike(Integer page){
+        Long memberId = memberUtils.getCurrentMemberId();
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
         Page <BookMarkInquiryResponse> bookMarkPage = bookMarkLikeRepository.findAllByMember(member, PageRequest.of(page-1,12))
                 .map(BookMarkLike::getBookmark)
@@ -186,7 +187,8 @@ public class BookMarkServiceImpl implements BookMarkService{
 
     @Override //내가 쓴 북마크 조회
     @Transactional
-    public MyPageResponse.MyPageWrittenBookMarkResponse inquiryBookMarkByMember(Long memberId, Integer page){
+    public MyPageResponse.MyPageWrittenBookMarkResponse inquiryBookMarkByMember(Integer page){
+        Long memberId = memberUtils.getCurrentMemberId();
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));;
         Page <BookMarkInquiryResponse> bookMarkPage = bookMarkRepository.findAllByMember(member, PageRequest.of(page-1,12))
                 .map(bookMarkConverter::toBookMarkInquiryResponse);

@@ -10,7 +10,6 @@ public class ReportRequest {
     @Getter
     public static class ReportRequestDTO{
 
-        private Long memberId;
         private Long bookMarkId;
         private Integer report;
         private String reason;
