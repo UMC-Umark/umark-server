@@ -82,7 +82,7 @@ public class BookMarkController {
             return ApiResponse.onFailure(e.getErrorCode(), null);
         }
     }
-    @GetMapping("/{memberId}/mywrite") // 내가 쓴 북마크 조회
+    @GetMapping("/mywrite") // 내가 쓴 북마크 조회
     public ApiResponse<MyPageResponse.MyPageWrittenBookMarkResponse> inquiryBookMarkByMember(
             @RequestParam(name = "page") Integer page
     ) {
@@ -93,7 +93,7 @@ public class BookMarkController {
         }
     }
 
-    @GetMapping("/{memberId}/mylike") // 내가 좋아요한 북마크 조회
+    @GetMapping("/mylike") // 내가 좋아요한 북마크 조회
     public ApiResponse<MyPageResponse.MyPageLikedBookMarkResponse> inquiryBookMarkByMemberLike(
             @RequestParam(name = "page") Integer page
     ) {
