@@ -23,6 +23,7 @@ public class Term extends BaseEntity {
     private String title;
 
     @Column(nullable = false)
+    @Lob
     private String description;
 
     @Column(nullable = false)
