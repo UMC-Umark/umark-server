@@ -80,6 +80,13 @@ public class MemberController {
             return ApiResponse.onSuccess(memberService.login(request));
     }
 
+    @PostMapping("/reissue")
+    public ApiResponse<MemberDto.ReissueResponseDto> reissue(
+            @RequestBody MemberDto.ReissueRequestDto refreshToken
+    ) {
+        return ApiResponse.onSuccess(memberService.reissue(refreshToken));
+    }
+
     @GetMapping("/{memberId}")
     public ApiResponse<MemberDto.MemberResponseDto> getMember(@PathVariable Long memberId) {
         try {

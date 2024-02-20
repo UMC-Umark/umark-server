@@ -99,4 +99,23 @@ public class MemberDto {
         private String newPassword;
     }
 
+    @Builder
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReissueRequestDto{
+        private String refreshToken;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReissueResponseDto{
+        private Long memberId;
+        private String accessToken;
+        private String refreshToken;
+    }
+
 }

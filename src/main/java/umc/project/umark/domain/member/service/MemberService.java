@@ -22,5 +22,7 @@ public interface MemberService {
     public Member changePasswordByEmail(String email, String newPassword);
     public Member changePassword(Long memberId, String newPassword);
 
+    public MemberDto.ReissueResponseDto reissue(MemberDto.ReissueRequestDto refreshToken);
+
     public void withdraw();
 }

@@ -146,6 +146,21 @@ public class MemberServiceImpl implements MemberService {
         return memberConverter.toLogin(member, accessToken, refreshToken);
     }
 
+    @Transactional
+    public MemberDto.ReissueResponseDto reissue(MemberDto.ReissueRequestDto request) {
+        String refreshToken = request.getRefreshToken();
+
+        Long memberId = jwtTokenService.parseRefreshToken(refreshToken);
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_INFO_NOT_FOUND));
+        String role = member.getRole().name();
+        String newAccessToken = jwtTokenService.generateAccessToken(member.getId(), role);
+        String newRefreshToken = jwtTokenService.generateRefreshToken(member.getId());
+
+        // 생성된 토큰 정보를 DTO로 반환
+        return memberConverter.toReissueResponseDto(memberId, newAccessToken, newRefreshToken);
+    }
+
 
     @Override
     public MemberDto.MemberResponseDto getMember(Long memberId) {
