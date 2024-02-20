@@ -52,4 +52,12 @@ public class MemberConverter {
                 .role(String.valueOf(member.getRole()))
                 .build();
     }
+
+    public MemberDto.ReissueResponseDto toReissueResponseDto(Long memberId, String newAccessToken, String newRefreshToken) {
+        return MemberDto.ReissueResponseDto.builder()
+                .memberId(memberId)
+                .accessToken(newAccessToken)
+                .refreshToken(newRefreshToken)
+                .build();
+    }
 }
