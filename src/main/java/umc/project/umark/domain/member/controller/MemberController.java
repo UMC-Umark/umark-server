@@ -4,15 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import umc.project.umark.domain.member.converter.MemberConverter;
 import umc.project.umark.domain.member.dto.MemberDto;
+import umc.project.umark.domain.member.email.service.EmailService;
 import umc.project.umark.domain.member.service.MemberService;
 import umc.project.umark.global.common.ApiResponse;
 import umc.project.umark.global.exception.GlobalException;
 
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,31 +18,48 @@ import java.util.Map;
 public class MemberController {
 
     private final MemberService memberService;
+    private final EmailService emailService;
+
+//    @PostMapping("/sendemail")
+//    public ApiResponse<Map<String, Object>> sendEmail(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) throws IOException {
+//        Map<String, Object> response = new HashMap<>();
+//        try {
+//            Boolean result = memberService.sendEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName());
+//            response.put("success", result);
+//            return new ApiResponse<>(true, "200", "성공하였습니다", response);
+//        } catch (IOException e) {
+//            response.put("error", e);
+//            return new ApiResponse<>(false, "400", e.getMessage().toString(), response);
+//        }
+//    }
+//
+//    @PostMapping("/checkemail")
+//    public ApiResponse<Map<String, Object>> checkEmail(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) throws IOException {
+//        Map<String, Object> response = new HashMap<>();
+//        try {
+//            Boolean result = memberService.checkEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName(), memberSignUpDto.getCode());
+//            response.put("success", result);
+//            return new ApiResponse<>(true, "200", "성공하였습니다", response);
+//        } catch (IOException e) {
+//            response.put("error", e);
+//            return new ApiResponse<>(false, "400", e.getMessage().toString(), response);
+//        }
+//    }
 
     @PostMapping("/sendemail")
-    public ApiResponse<Map<String, Object>> sendEmail(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) throws IOException {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            Boolean result = memberService.sendEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName());
-            response.put("success", result);
-            return new ApiResponse<>(true, "200", "성공하였습니다", response);
-        } catch (IOException e) {
-            response.put("error", e);
-            return new ApiResponse<>(false, "400", e.getMessage().toString(), response);
-        }
+    public ApiResponse sendEmailCode(
+            @RequestBody MemberDto.EmailCheckDto request
+    ) {
+        emailService.joinEmail(request.getEmail());
+        return ApiResponse.onSuccess("");
     }
 
     @PostMapping("/checkemail")
-    public ApiResponse<Map<String, Object>> checkEmail(@RequestBody MemberDto.MemberSignUpDto memberSignUpDto) throws IOException {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            Boolean result = memberService.checkEmail(memberSignUpDto.getEmail(), memberSignUpDto.getUnivName(), memberSignUpDto.getCode());
-            response.put("success", result);
-            return new ApiResponse<>(true, "200", "성공하였습니다", response);
-        } catch (IOException e) {
-            response.put("error", e);
-            return new ApiResponse<>(false, "400", e.getMessage().toString(), response);
-        }
+    public ApiResponse verifyEmailCode(
+            @RequestBody MemberDto.CodeCheckDto request
+    ) {
+        emailService.checkCode(request.getEmail(), request.getCode());
+        return ApiResponse.onSuccess("");
     }
 
     @PostMapping("/signup")

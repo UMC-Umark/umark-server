@@ -45,8 +45,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Boolean sendEmail(String email, String univName) throws IOException {
-        try {
             Map<String, Object> result = UnivCert.certify(apiKey, email, univName, true);
+            log.info("result" + result);
             log.info("메일 전송 : {}", "메일 " + email + " 대학 " + univName);
 
             if (result.get("success").equals(true)) {
@@ -54,10 +54,6 @@ public class MemberServiceImpl implements MemberService {
             } else{
                 throw new IOException((String)result.get("message"));
             }
-
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
 
