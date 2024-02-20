@@ -124,6 +124,10 @@ public class SecurityConfig {
                                                 "/bookmarks/add",
                                                 "/bookmarks/update/**",
                                                 "/bookmarks/delete/**",
+                                                "/bookmarks/*/likes",
+                                                "/bookmarks/reports",
+                                                "/bookmarks/mywrite",
+                                                "/bookmarks/mylike",
                                                 "/member/withdraw")
                                         .authenticated()
                                         .anyRequest()

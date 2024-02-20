@@ -40,10 +40,10 @@ public class BookMarkController {
 
     @PostMapping("/{bookMarkId}/likes")
     public ApiResponse<BookMarkLikeResponse.BookMarkLikeResponseDTO> bookMarkLike(
-            @PathVariable Long bookMarkId,
-            @RequestParam Long memberId) {
+            @PathVariable Long bookMarkId
+            ) {
 
-        BookMark bookMark = bookMarkService.likeBookMark(memberId, bookMarkId);
+        BookMark bookMark = bookMarkService.likeBookMark(bookMarkId);
         return ApiResponse.onSuccess(BookMarkLikeConverter.toBookMarkLikeResponseDTO(bookMark));
     }
 
@@ -82,25 +82,23 @@ public class BookMarkController {
             return ApiResponse.onFailure(e.getErrorCode(), null);
         }
     }
-    @GetMapping("/{memberId}/mywrite") // 내가 쓴 북마크 조회
+    @GetMapping("/mywrite") // 내가 쓴 북마크 조회
     public ApiResponse<MyPageResponse.MyPageWrittenBookMarkResponse> inquiryBookMarkByMember(
-            @RequestParam(name = "page") Integer page,
-            @PathVariable Long memberId
+            @RequestParam(name = "page") Integer page
     ) {
         try {
-            return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkByMember(memberId, page));
+            return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkByMember(page));
         } catch (GlobalException e) {
             return  ApiResponse.onFailure(e.getErrorCode(), null);
         }
     }
 
-    @GetMapping("/{memberId}/mylike") // 내가 좋아요한 북마크 조회
+    @GetMapping("/mylike") // 내가 좋아요한 북마크 조회
     public ApiResponse<MyPageResponse.MyPageLikedBookMarkResponse> inquiryBookMarkByMemberLike(
-            @RequestParam(name = "page") Integer page,
-            @PathVariable Long memberId
+            @RequestParam(name = "page") Integer page
     ) {
         try {
-            return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkByMemberLike(memberId, page));
+            return ApiResponse.onSuccess(bookMarkService.inquiryBookMarkByMemberLike(page));
         } catch (GlobalException e) {
             return ApiResponse.onFailure(e.getErrorCode(), null);
         }
