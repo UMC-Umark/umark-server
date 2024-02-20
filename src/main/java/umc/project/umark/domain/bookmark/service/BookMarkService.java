@@ -15,14 +15,14 @@ import umc.project.umark.domain.report.dto.Request.ReportRequest;
 
 public interface BookMarkService {
     BookMark createBookMark(BookMarkRequest.BookMarkCreateRequestDTO request);
-    BookMark likeBookMark(Long memberId, Long bookMarkId);
+    BookMark likeBookMark(Long bookMarkId);
     Long deleteBookMark(Long bookMarkId);
     BookMark createReport(ReportRequest.ReportRequestDTO request);
 
     Page<BookMarkInquiryResponse> inquiryBookMarkPage(Integer page);//모든 북마크 조회
     Page<BookMarkInquiryResponse> inquiryBookMarkByLikeCount(Integer page); // 추천 북마크 조회
-    MyPageResponse.MyPageLikedBookMarkResponse inquiryBookMarkByMemberLike(Long memberId, Integer page); // 좋아요 한 북마크 조회
-    MyPageResponse.MyPageWrittenBookMarkResponse inquiryBookMarkByMember(Long memberId, Integer page); // 내가 쓴 북마크 조회
+    MyPageResponse.MyPageLikedBookMarkResponse inquiryBookMarkByMemberLike(Integer page); // 좋아요 한 북마크 조회
+    MyPageResponse.MyPageWrittenBookMarkResponse inquiryBookMarkByMember(Integer page); // 내가 쓴 북마크 조회
     Page<BookMarkInquiryResponse> inquiryBookMarkBySearch(String keyWord, Integer page); // 모든 북마크 검색
     Page<BookMarkInquiryResponse> inquiryBookMarkByLikeCountAndSearch(String keyword, Integer page); //추천 북마크 검색
     BookMarkInquiryResponse inquiryBookMarkById(Long bookMarkId);
