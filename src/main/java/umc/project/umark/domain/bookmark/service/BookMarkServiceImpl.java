@@ -67,8 +67,8 @@ public class BookMarkServiceImpl implements BookMarkService{
                     return hashTagRepository.findByContent(hashTag.getContent()).orElseGet(() -> hashTagService.createHashTag(hashTag)); //없으면 해쉬태그 만들어서 반환
                 }).collect(Collectors.toList());
 
-        List <BookMarkHashTag> bookMarkHashTagList = BookMarkHashTagConverter.toBookMarkHashTagList(hashTagList); //request에 있는 것들로 bookmarkhashtag 만들기
-        bookMarkHashTagList.forEach(bookMarkHashTag -> bookMarkHashTag.setBookMark(newBookMark));
+        List <BookMarkHashTag> bookMarkHashTagList = BookMarkHashTagConverter.toBookMarkHashTagList(newBookMark, hashTagList); //request에 있는 것들로 bookmarkhashtag 만들기
+        bookMarkHashTagList.forEach(bookMarkHashTag -> bookMarkHashTag.setBookmark(newBookMark));
 
         member.increaseWrittenCount();
         return bookMarkRepository.save(newBookMark);
@@ -159,7 +159,7 @@ public class BookMarkServiceImpl implements BookMarkService{
     @Override // 모든 북마크 조회
     @Transactional
     public Page<BookMarkInquiryResponse> inquiryBookMarkPage(Integer page){
-        Page <BookMark> bookMarkPage = bookMarkRepository.findAll(PageRequest.of(page-1,15, Sort.by("createdAt").descending()));
+        Page <BookMark> bookMarkPage = bookMarkRepository.findAll(PageRequest.of(page-1,12, Sort.by("createdAt").descending()));
 
         return bookMarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
     }
@@ -168,7 +168,7 @@ public class BookMarkServiceImpl implements BookMarkService{
     @Transactional
     public Page<BookMarkInquiryResponse> inquiryBookMarkByLikeCount(Integer page){
         LocalDateTime weekAgo = LocalDateTime.now().minusWeeks(1);
-        Page<BookMark> bookMarkPage = bookMarkRepository.findAllByOrderByLikeCount(PageRequest.of(page-1,15), weekAgo);
+        Page<BookMark> bookMarkPage = bookMarkRepository.findAllByOrderByLikeCount(PageRequest.of(page-1,12), weekAgo);
 
         return bookMarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
     }
@@ -199,7 +199,7 @@ public class BookMarkServiceImpl implements BookMarkService{
     @Override //모든 북마크 검색
     @Transactional
     public Page<BookMarkInquiryResponse> inquiryBookMarkBySearch(String keyWord, Integer page){
-        Page <BookMark> bookMarkPage = bookMarkRepository.findAllBySearch(keyWord, PageRequest.of(page-1, 15));
+        Page <BookMark> bookMarkPage = bookMarkRepository.findAllBySearch(keyWord, PageRequest.of(page-1, 12));
 
         return bookMarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
     }
@@ -207,7 +207,7 @@ public class BookMarkServiceImpl implements BookMarkService{
     @Override //추천 북마크 검색
     @Transactional
     public Page<BookMarkInquiryResponse> inquiryBookMarkByLikeCountAndSearch(String keyword, Integer page){
-        Page <BookMark> bookMarkPage = bookMarkRepository.findAllByLikeCountAndSearch(keyword, PageRequest.of(page-1, 15));
+        Page <BookMark> bookMarkPage = bookMarkRepository.findAllByLikeCountAndSearch(keyword, PageRequest.of(page-1, 12));
 
         return bookMarkPage.map(bookMarkConverter::toBookMarkInquiryResponse);
     }
@@ -229,14 +229,14 @@ public class BookMarkServiceImpl implements BookMarkService{
             throw new GlobalException(GlobalErrorCode.MEMBER_NOT_AUTHORIZED);
         }
         BookMark bookMark = bookMarkRepository.findById(bookMarkId).orElseThrow(() -> new GlobalException(GlobalErrorCode.BOOKMARK_NOT_FOUND));
-
+        bookMark.getBookMarkHashTags().clear();
         List<HashTag> hashTagList = request.getHashTags().stream()
                 .map(hashTag -> hashTagRepository.findByContent(hashTag.getContent())
                         .orElseGet(() -> hashTagService.createHashTag(hashTag)))
                 .collect(Collectors.toList());
-        List <BookMarkHashTag> bookMarkHashTagList = BookMarkHashTagConverter.toBookMarkHashTagList(hashTagList);
-
-        bookMark.update(request.getTitle(), request.getUrl(), request.getContent(), bookMarkHashTagList);
+        List <BookMarkHashTag> bookMarkHashTagList = BookMarkHashTagConverter.toBookMarkHashTagList(bookMark, hashTagList);
+        bookMark.getBookMarkHashTags().addAll(bookMarkHashTagList);
+        bookMark.update(request.getTitle(), request.getUrl(), request.getContent());
         return bookMarkConverter.toBookMarkUpdateResponse(bookMarkRepository.save(bookMark));
     }
 

@@ -80,6 +80,9 @@ public class BookMarkConverter {
         return BookMarkUpdateResponse.builder()
                 .BookMarkId(bookMark.getId())
                 .modifiedAt(bookMark.getModifiedAt())
+                .hashTagContent(bookMark.getBookMarkHashTags().stream()
+                        .map(bookMarkHashTag -> bookMarkHashTag.getHashtag().getContent())
+                        .collect(Collectors.toList()))
                 .build();
     }
 

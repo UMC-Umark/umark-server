@@ -20,15 +20,12 @@ public class BookMarkHashTag extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
+    @Setter
     private BookMark bookmark;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private HashTag hashtag;
 
-    public void setBookMark(BookMark bookmark){
-        this.bookmark = bookmark;
-        bookmark.getBookMarkHashTags().add(this);
-    }
 
 }
