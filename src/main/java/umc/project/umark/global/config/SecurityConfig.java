@@ -48,7 +48,8 @@ public class SecurityConfig {
             "/webjars/**",
             "/member/**",
             "/api-docs/**",
-            "/bookmarks/**"
+            "/bookmarks/**",
+            "/api/v1/**"
     };
 
     @Component

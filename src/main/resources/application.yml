@@ -15,9 +15,22 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
+---
+spring:
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 
 univcert:
   apikey: ${UNIVCERT_APIKEY}
+
+umark:
+  mail:
+    host: ${UMARK_MAIL_HOST}
+    port: ${UMARK_MAIL_PORT}
+    username: ${UMARK_MAIL_USERNAME}
+    password: ${UMARK_MAIL_PASSWORD}
 
 ---
 auth:

@@ -22,6 +22,27 @@ public class MemberDto {
 
     @Builder
     @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class EmailCheckDto{
+        private String email;
+        private String univName;
+    }
+
+    @Builder
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CodeCheckDto{
+        private String email;
+        private String univName;
+        private String code;
+    }
+
+    @Builder
+    @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class LoginRequestDto{
