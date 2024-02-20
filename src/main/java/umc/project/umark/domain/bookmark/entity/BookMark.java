@@ -59,7 +59,7 @@ public class BookMark extends BaseEntity {
     @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL)
     private List<BookMarkLike> bookMarkLikes;
 
-    @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bookmark",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookMarkHashTag> bookMarkHashTags;
 
     public void increaseLikeCount() {
@@ -82,13 +82,13 @@ public class BookMark extends BaseEntity {
         }
     }
 
-    public void update(String title, String url, String content, List<BookMarkHashTag> bookMarkHashTags){
+    public void update(String title, String url, String content){
         this.title = title;
         this.url = url;
         this.content =content;
-        this.bookMarkHashTags = bookMarkHashTags;
         markAsModified();
     }
+
     public void setReported(boolean reported) {
         this.isReported = reported;
     }
