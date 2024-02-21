@@ -93,4 +93,8 @@ public class BookMark extends BaseEntity {
         this.isReported = reported;
     }
 
+    public void addHashTag(List<BookMarkHashTag> bookMarkHashTags){
+        this.bookMarkHashTags = bookMarkHashTags;
+    }
+
 }
