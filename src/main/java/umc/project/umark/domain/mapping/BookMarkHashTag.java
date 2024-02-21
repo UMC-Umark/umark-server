@@ -27,5 +27,8 @@ public class BookMarkHashTag extends BaseEntity {
     @JoinColumn
     private HashTag hashtag;
 
-
+    public void addBookMark(BookMark bookmark){
+        this.bookmark = bookmark;
+        bookmark.getBookMarkHashTags().add(this);
+    }
 }

@@ -68,8 +68,7 @@ public class BookMarkServiceImpl implements BookMarkService{
                 }).collect(Collectors.toList());
 
         List <BookMarkHashTag> bookMarkHashTagList = BookMarkHashTagConverter.toBookMarkHashTagList(newBookMark, hashTagList); //request에 있는 것들로 bookmarkhashtag 만들기
-        bookMarkHashTagList.forEach(bookMarkHashTag -> bookMarkHashTag.setBookmark(newBookMark));
-
+        bookMarkHashTagList.forEach(bookMarkHashTag -> bookMarkHashTag.addBookMark(newBookMark));
         member.increaseWrittenCount();
         return bookMarkRepository.save(newBookMark);
 
